@@ -117,7 +117,10 @@ export const CourseDetails: React.FC = () => {
 
   return (
     <div>
-      <h1 className="title">{course.name}</h1>
+      <div className="row" style={{alignItems:'center', justifyContent:'space-between'}}>
+        <h1 className="title" style={{margin:0}}>{course.name}</h1>
+        <Link className="btn ghost" to="/">Voltar ao dashboard</Link>
+      </div>
       <p className="subtitle">Criador: <strong>{nameOf(course.creator_id)}</strong></p>
       <div className="row" style={{marginTop:8}}>
         <span className="badge">Instrutores: {course.instructors.map(nameOf).join(', ') || '—'}</span>
