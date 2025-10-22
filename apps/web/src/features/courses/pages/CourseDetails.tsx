@@ -122,6 +122,13 @@ export const CourseDetails: React.FC = () => {
         <Link className="btn ghost" to="/">Voltar ao dashboard</Link>
       </div>
       <p className="subtitle">Criador: <strong>{nameOf(course.creator_id)}</strong></p>
+      {course.description && (
+        <p className="muted">{course.description}</p>
+      )}
+      <div className="row" style={{marginTop:8}}>
+        <span className="badge">Início: {new Date(course.start_date).toLocaleDateString()}</span>
+        <span className="badge">Fim: {new Date(course.end_date).toLocaleDateString()}</span>
+      </div>
       <div className="row" style={{marginTop:8}}>
         <span className="badge">Instrutores: {course.instructors.map(nameOf).join(', ') || '—'}</span>
         {canManage && <Link className="btn ghost" to={`/courses/${course.id}/edit`}>Editar curso</Link>}
