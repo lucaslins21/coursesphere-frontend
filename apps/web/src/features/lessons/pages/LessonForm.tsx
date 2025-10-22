@@ -24,6 +24,17 @@ export const LessonForm: React.FC<{ mode: 'create' | 'edit' }> = ({ mode }) => {
   const { push } = useToast()
   const [guarding, setGuarding] = useState(true)
 
+  // Inicializa o formulário ANTES de usar setValue no efeito
+  const { register, handleSubmit, formState: { errors, isSubmitting }, setValue } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      title: 'Nova aula',
+      status: 'draft',
+      publish_date: new Date(Date.now()+86400000).toISOString().slice(0,10),
+      video_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+    }
+  })
+
   useEffect(() => {
     (async () => {
       try {
@@ -51,16 +62,6 @@ export const LessonForm: React.FC<{ mode: 'create' | 'edit' }> = ({ mode }) => {
       }
     })()
   }, [mode, courseId, lessonId, user, nav, setValue])
-
-  const { register, handleSubmit, formState: { errors, isSubmitting }, setValue } = useForm<FormData>({
-    resolver: zodResolver(schema),
-    defaultValues: {
-      title: 'Nova aula',
-      status: 'draft',
-      publish_date: new Date(Date.now()+86400000).toISOString().slice(0,10),
-      video_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-    }
-  })
 
   const onSubmit = async (f: FormData) => {
     try {

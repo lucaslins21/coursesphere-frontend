@@ -133,6 +133,15 @@
       "video_url": "https://vimeo.com/76979871",
       "course_id": 1,
       "creator_id": 2
+    },
+    {
+      "title": "aula de R",
+      "status": "draft",
+      "publish_date": "2025-10-23",
+      "video_url": "https://www.youtube.com/watch?v=x4S9rIJHqxU&t=3s",
+      "course_id": 3,
+      "creator_id": 1,
+      "id": 3
     }
   ]
 }
