@@ -24,6 +24,7 @@ export const Dashboard: React.FC = () => {
         <input value={q} onChange={(e)=>setQ(e.target.value)} placeholder="Buscar por nome ou descrição"/>
         <div className="row">
           <Link className="btn" to="/courses/new">Criar curso</Link>
+          <Link className="btn ghost" to="/invitations">Convites</Link>
           <span className="muted">{filtered.length} curso(s)</span>
         </div>
       </div>

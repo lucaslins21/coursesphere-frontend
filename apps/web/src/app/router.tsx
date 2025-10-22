@@ -8,6 +8,7 @@ import { LessonForm } from '../features/lessons/pages/LessonForm'
 import { CourseForm } from '../features/courses/pages/CourseForm'
 import { useAuth } from '../auth/AuthContext'
 import { NotAllowed } from '../pages/NotAllowed'
+import { Invitations } from '../pages/Invitations'
 
 const Guard: React.FC<React.PropsWithChildren> = ({ children }) => {
   const { user } = useAuth()
@@ -31,6 +32,7 @@ const AppLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
 export const router = createBrowserRouter([
   { path: '/login', element: <Login /> },
   { path: '/register', element: <Register /> },
+  { path: '/invitations', element: <Guard><AppLayout><Invitations /></AppLayout></Guard> },
   { path: '/', element: <Guard><AppLayout><Dashboard /></AppLayout></Guard> },
   { path: '/403', element: <NotAllowed /> },
   { path: '/courses/new', element: <Guard><AppLayout><CourseForm mode="create" /></AppLayout></Guard> },

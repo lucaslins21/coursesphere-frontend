@@ -110,7 +110,8 @@
       "creator_id": 1,
       "instructors": [
         1,
-        11
+        11,
+        2
       ],
       "id": 3
     }
@@ -142,6 +143,27 @@
       "course_id": 3,
       "creator_id": 1,
       "id": 3
+    },
+    {
+      "title": "teste instrutor",
+      "status": "published",
+      "publish_date": "2025-10-24",
+      "video_url": "https://www.youtube.com/watch?v=mBZwlo_Fquc",
+      "course_id": 3,
+      "creator_id": 2,
+      "id": 4
+    }
+  ],
+  "invitations": [
+    {
+      "id": 1,
+      "course_id": 3,
+      "email": "bruno@curso.com",
+      "inviter_id": 1,
+      "status": "accepted",
+      "token": "mgv2vt32l8mh2n6cis",
+      "created_at": "2025-10-22T23:46:09.508Z",
+      "accepted_at": "2025-10-22T23:46:36.765Z"
     }
   ]
 }

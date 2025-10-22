@@ -26,6 +26,8 @@ export const CourseDetails: React.FC = () => {
 
   const { user } = useAuth()
   const { push } = useToast()
+  const [inviteEmail, setInviteEmail] = useState('')
+  const [sendingInvite, setSendingInvite] = useState(false)
 
   useEffect(() => {
     (async () => {
@@ -111,6 +113,23 @@ export const CourseDetails: React.FC = () => {
     } catch {
       push('error', 'Falha ao excluir curso')
     }
+  }
+
+  const sendInvite = async () => {
+    if (!course) return
+    const email = inviteEmail.trim()
+    if (!email) { push('error','Informe um e-mail'); return }
+    setSendingInvite(true)
+    try {
+      const check = await api.get<User[]>('/users', { params: { email } })
+      const exists = check.data[0]
+      if (!exists) { push('error','E-mail não registrado'); return }
+      await api.post('/invitations', { course_id: course.id, email, inviter_id: user!.id })
+      setInviteEmail('')
+      push('success','Convite enviado')
+    } catch (e:any) {
+      push('error', e?.response?.data?.message || 'Falha ao enviar convite')
+    } finally { setSendingInvite(false) }
   }
 
   if (!course) return <div className="muted">Carregando...</div>
@@ -206,8 +225,12 @@ export const CourseDetails: React.FC = () => {
                 </div>
               ))}
             </div>
-            <div className="space" />
-            <button className="btn" onClick={addSuggestedInstructor}>Adicionar instrutor sugerido</button>
+          <div className="space" />
+          <div className="row">
+            <input style={{maxWidth:320}} placeholder="Convidar por e-mail" value={inviteEmail} onChange={e=>setInviteEmail(e.target.value)} />
+            <button className="btn" onClick={sendInvite} disabled={sendingInvite}>{sendingInvite? 'Enviando...' : 'Convidar'}</button>
+            <button className="btn ghost" onClick={addSuggestedInstructor}>Adicionar instrutor sugerido</button>
+          </div>
           </div>
           <div className="space" />
           <button className="btn ghost" onClick={deleteCourse}>Excluir curso</button>
