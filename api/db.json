@@ -1,0 +1,112 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Ana Silva",
+      "email": "ana@curso.com",
+      "password": "123456",
+      "role": "instructor"
+    },
+    {
+      "id": 2,
+      "name": "Bruno Lima",
+      "email": "bruno@curso.com",
+      "password": "123456",
+      "role": "instructor"
+    },
+    {
+      "id": 3,
+      "name": "Admin",
+      "email": "admin@curso.com",
+      "password": "123456",
+      "role": "admin"
+    },
+    {
+      "name": "Dalibor Lazorskiy",
+      "email": "dalibor.lazorskiy@example.com",
+      "password": "123456",
+      "role": "instructor",
+      "id": 4
+    },
+    {
+      "name": "Barnabé Silveira",
+      "email": "barnabe.silveira@example.com",
+      "password": "123456",
+      "role": "instructor",
+      "id": 5
+    },
+    {
+      "name": "Helmi Peura",
+      "email": "helmi.peura@example.com",
+      "password": "123456",
+      "role": "instructor",
+      "id": 6
+    },
+    {
+      "name": "Salvatore Schiffer",
+      "email": "salvatore.schiffer@example.com",
+      "password": "123456",
+      "role": "instructor",
+      "id": 7
+    },
+    {
+      "name": "Olve Hemmingsen",
+      "email": "olve.hemmingsen@example.com",
+      "password": "123456",
+      "role": "instructor",
+      "id": 8
+    },
+    {
+      "name": "Ljubiša Stefanović",
+      "email": "ljubisa.stefanovic@example.com",
+      "password": "123456",
+      "role": "instructor",
+      "id": 9
+    }
+  ],
+  "courses": [
+    {
+      "id": 1,
+      "name": "React do Zero",
+      "description": "Fundamentos do React para iniciantes.",
+      "start_date": "2025-10-01",
+      "end_date": "2025-12-15",
+      "creator_id": 1,
+      "instructors": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": 2,
+      "name": "TypeScript Essencial",
+      "description": "Tipos, generics e boas práticas.",
+      "start_date": "2025-11-01",
+      "end_date": "2026-01-10",
+      "creator_id": 2,
+      "instructors": [
+        2
+      ]
+    }
+  ],
+  "lessons": [
+    {
+      "id": 1,
+      "title": "Introdução",
+      "status": "published",
+      "publish_date": "2025-11-10",
+      "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "course_id": 1,
+      "creator_id": 1
+    },
+    {
+      "id": 2,
+      "title": "Hooks Básicos",
+      "status": "draft",
+      "publish_date": "2025-12-01",
+      "video_url": "https://vimeo.com/76979871",
+      "course_id": 1,
+      "creator_id": 2
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Vite/Build
+dist/
+build/
+*.local
+
+# Env
+.env
+.env.*.local
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Monorepo dirs (ajuste se mudar estrutura)
+apps/web/node_modules/
+apps/web/dist/
+api/node_modules/

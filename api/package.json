@@ -1,0 +1,12 @@
+{
+  "name": "coursesphere-api",
+  "private": true,
+  "version": "0.0.3",
+  "scripts": {
+    "start": "node server.cjs"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "json-server": "0.17.4"
+  }
+}
