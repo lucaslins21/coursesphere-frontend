@@ -7,11 +7,10 @@ export const Pagination: React.FC<{ page:number; total:number; perPage?:number; 
   const prev = () => onPage(Math.max(1, page - 1))
   const next = () => onPage(Math.min(maxPage, page + 1))
   return (
-    <div style={{display:'flex', gap:8, alignItems:'center', justifyContent:'flex-end', marginTop:12}}>
+    <div className="pager">
       <span className="muted">Página {page} de {maxPage}</span>
-      <button className="btn ghost" onClick={prev} disabled={page<=1}><FontAwesomeIcon icon={faChevronLeft} /> Anterior</button>
-      <button className="btn" onClick={next} disabled={page>=maxPage}>Próxima <FontAwesomeIcon icon={faChevronRight} /></button>
+      <button className="btn ghost sm" onClick={prev} disabled={page<=1}><FontAwesomeIcon icon={faChevronLeft} /> Anterior</button>
+      <button className="btn sm" onClick={next} disabled={page>=maxPage}>Próxima <FontAwesomeIcon icon={faChevronRight} /></button>
     </div>
   )
 }
-

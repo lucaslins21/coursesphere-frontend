@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeft, faPenToSquare, faPlus, faUserMinus, faPaperPlane, faWandMagicSparkles, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faArrowLeft, faPenToSquare, faPlus, faUserMinus, faPaperPlane, faWandMagicSparkles, faTrash, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { api } from '../../../lib/axios'
 import { useAuth } from '../../../auth/AuthContext'
@@ -138,27 +138,28 @@ export const CourseDetails: React.FC = () => {
 
   return (
     <div>
-      <div className="row" style={{alignItems:'center', justifyContent:'space-between'}}>
-        <h1 className="title" style={{margin:0}}>{course.name}</h1>
-        <Link className="btn ghost" to="/"><FontAwesomeIcon icon={faArrowLeft} /> Voltar ao dashboard</Link>
+      <div className="dash-header">
+        <div className="dash-title">
+          <div className="row" style={{alignItems:'center', gap:8}}>
+            <h1 className="title" style={{margin:0}}>{course.name}</h1>
+            {canManage && <Link className="btn ghost" to={`/courses/${course.id}/edit`}><FontAwesomeIcon icon={faPenToSquare} /> Editar curso</Link>}
+          </div>
+          <p className="subtitle">Criador: <strong>{nameOf(course.creator_id)}</strong></p>
+        </div>
+        <div className="dash-actions">
+          {isInstructor && <Link className="btn gradient" to={`/courses/${course.id}/lessons/new`}><FontAwesomeIcon icon={faPlus} /> Nova aula</Link>}
+          <Link className="btn ghost" to="/"><FontAwesomeIcon icon={faArrowLeft} /> Voltar</Link>
+        </div>
       </div>
-      <p className="subtitle">Criador: <strong>{nameOf(course.creator_id)}</strong></p>
-      {course.description && (
-        <p className="muted">{course.description}</p>
-      )}
+
+      {course.description && <p className="muted" style={{marginTop: 0}}>{course.description}</p>}
       <div className="row" style={{marginTop:8}}>
         <span className="badge">Início: {new Date(course.start_date).toLocaleDateString()}</span>
         <span className="badge">Fim: {new Date(course.end_date).toLocaleDateString()}</span>
       </div>
-      <div className="row" style={{marginTop:8}}>
-        <span className="badge">Instrutores: {course.instructors.map(nameOf).join(', ') || '—'}</span>
-        {canManage && <Link className="btn ghost" to={`/courses/${course.id}/edit`}><FontAwesomeIcon icon={faPenToSquare} /> Editar curso</Link>}
-      </div>
 
-      <div className="space"></div>
-      <div className="toolbar">
-        <div className="row" style={{flex:1}}>
-          <input placeholder="Buscar por título" value={q} onChange={e=>{ setPage(1); setQ(e.target.value) }} />
+      <div className="dash-toolbar">
+        <div style={{display:'flex', alignItems:'center', gap:12}}>
           <select value={status} onChange={e=>{ setPage(1); setStatus(e.target.value) }}>
             <option value="">Todas</option>
             <option value="draft">Rascunho</option>
@@ -166,44 +167,53 @@ export const CourseDetails: React.FC = () => {
             <option value="archived">Arquivada</option>
           </select>
         </div>
-        {isInstructor && <Link className="btn" to={`/courses/${course.id}/lessons/new`}><FontAwesomeIcon icon={faPlus} /> Nova aula</Link>}
+        <div style={{display:'flex', alignItems:'center', gap:12}}>
+          <span className="muted">{total} aula(s)</span>
+          <div className="search" style={{width:320}}>
+            <div className="input-wrap">
+              <input placeholder="Buscar aulas" value={q} onChange={e=>{ setPage(1); setQ(e.target.value) }} />
+              <span className="icon-right"><FontAwesomeIcon icon={faMagnifyingGlass} /></span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {loading && <p className="muted">Carregando aulas...</p>}
 
-      <div className="grid">
+      <div className="course-grid">
         {lessons.map(l => (
-          <div className="card" key={l.id}>
-            <VideoThumb url={l.video_url} />
-            <div className="space"></div>
-            <div className="row" style={{justifyContent:'space-between'}}>
-              <strong>{l.title}</strong>
-              <span className="badge">{l.status}</span>
-            </div>
-            <p className="muted">Publicação: {new Date(l.publish_date).toLocaleDateString()}</p>
-            <a href={l.video_url} target="_blank">Ver vídeo ↗</a>
-            <p className="muted">Autor: {nameOf(l.creator_id)}</p>
-            {(user!.id === l.creator_id || user!.id === course.creator_id) && (
-              <div className="row">
-                <Link className="btn" to={`/courses/${course.id}/lessons/${l.id}/edit`}>Editar</Link>
-                <button
-                  className="btn ghost"
-                  onClick={async () => {
-                    if (!confirm('Confirma excluir a aula?')) return
-                    try {
-                      await api.delete(`/lessons/${l.id}`)
-                      setLessons(prev => prev.filter(x => x.id !== l.id))
-                      push('success', 'Aula excluída')
-                    } catch {
-                      push('error', 'Falha ao excluir aula')
-                    }
-                  }}
-                >
-                  Excluir
-                </button>
+          <div className="course-card" key={l.id}>
+            <div className="thumb"><VideoThumb url={l.video_url} height={140} /></div>
+            <div className="content">
+              <div className="row" style={{justifyContent:'space-between', marginBottom: 6}}>
+                <strong>{l.title}</strong>
+                <span className="badge">{l.status}</span>
               </div>
-            )}
-          </div>        
+              <p className="muted" style={{margin:'0 0 8px'}}>Publicação: {new Date(l.publish_date).toLocaleDateString()}</p>
+              <a className="muted" href={l.video_url} target="_blank">Ver vídeo ↗</a>
+              <p className="muted" style={{margin:'8px 0'}}>Autor: {nameOf(l.creator_id)}</p>
+              {(user!.id === l.creator_id || user!.id === course.creator_id) && (
+                <div className="row">
+                  <Link className="btn gradient sm" to={`/courses/${course.id}/lessons/${l.id}/edit`}><FontAwesomeIcon icon={faPenToSquare} /> Editar</Link>
+                  <button
+                    className="btn ghost sm"
+                    onClick={async () => {
+                      if (!confirm('Confirma excluir a aula?')) return
+                      try {
+                        await api.delete(`/lessons/${l.id}`)
+                        setLessons(prev => prev.filter(x => x.id !== l.id))
+                        push('success', 'Aula excluída')
+                      } catch {
+                        push('error', 'Falha ao excluir aula')
+                      }
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faTrash} /> Excluir
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
         ))}
       </div>
 
@@ -213,29 +223,29 @@ export const CourseDetails: React.FC = () => {
 
       {canManage && (
         <div className="card" style={{marginTop:16}}>
-          <strong>Gerenciamento do curso</strong>
+          <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+            <strong>Gerenciamento do curso</strong>
+            <button className="btn ghost sm" onClick={deleteCourse}><FontAwesomeIcon icon={faTrash} /> Excluir curso</button>
+          </div>
           <div className="space" />
-          <div>
-            <h4 style={{margin:'4px 0'}}>Instrutores</h4>
-            <div className="row">
-              {course.instructors.map(uid => (
-                <div key={uid} className="badge" style={{display:'flex', alignItems:'center', gap:8}}>
-                  <span>{nameOf(uid)}</span>
-                  {!isCreator(uid) && (
-                    <button className="btn ghost" onClick={()=>removeInstructor(uid)}><FontAwesomeIcon icon={faUserMinus} /> Remover</button>
-                  )}
-                </div>
-              ))}
+          <div className="user-chips">
+            {course.instructors.map(uid => (
+              <span key={uid} className="chip user">
+                {nameOf(uid)}
+                {!isCreator(uid) && (
+                  <button type="button" className="chip-remove" title="Remover instrutor" onClick={()=>removeInstructor(uid)}><FontAwesomeIcon icon={faUserMinus} /></button>
+                )}
+              </span>
+            ))}
+          </div>
+          <div className="space" />
+          <div className="dash-actions" style={{justifyContent:'flex-start'}}>
+            <div className="search" style={{width:320}}>
+              <input placeholder="Convidar por e-mail" value={inviteEmail} onChange={e=>setInviteEmail(e.target.value)} />
             </div>
-          <div className="space" />
-          <div className="row">
-            <input style={{maxWidth:320}} placeholder="Convidar por e-mail" value={inviteEmail} onChange={e=>setInviteEmail(e.target.value)} />
-            <button className="btn" onClick={sendInvite} disabled={sendingInvite}><FontAwesomeIcon icon={faPaperPlane} /> {sendingInvite? 'Enviando...' : 'Convidar'}</button>
-            <button className="btn ghost" onClick={addSuggestedInstructor}><FontAwesomeIcon icon={faWandMagicSparkles} /> Adicionar instrutor sugerido</button>
+            <button className="btn gradient sm" onClick={sendInvite} disabled={sendingInvite}><FontAwesomeIcon icon={faPaperPlane} /> {sendingInvite? 'Enviando...' : 'Convidar'}</button>
+            <button className="btn ghost sm" onClick={addSuggestedInstructor}><FontAwesomeIcon icon={faWandMagicSparkles} /> Sugerir instrutor</button>
           </div>
-          </div>
-          <div className="space" />
-          <button className="btn ghost" onClick={deleteCourse}><FontAwesomeIcon icon={faTrash} /> Excluir curso</button>
         </div>
       )}
     </div>

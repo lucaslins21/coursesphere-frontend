@@ -43,6 +43,7 @@ a { color: var(--muted); text-decoration: none; }
 .btn:active { transform: translateY(0.5px); }
 .btn.ghost { background:transparent; color: var(--text); border:1px solid var(--primary); }
 .btn.ghost:hover { background: rgba(99,102,241,.08); }
+.btn.sm { padding: 6px 10px; border-radius: 8px; font-size: 13px; }
 
 /* Inputs */
 input, select { background: var(--surface); border:1px solid var(--border); padding: 10px 12px; border-radius: 10px; color: var(--text); width: 100%; }
@@ -78,7 +79,7 @@ nav { display:flex; justify-content:space-between; padding: 12px 24px; backgroun
 .dash-actions { display:flex; align-items:center; gap: 12px; }
 .dash-actions .search { width: min(360px, 40vw); }
 .dash-actions .input-wrap input { height: 38px; }
-.dash-toolbar { display:flex; align-items:center; gap: 12px; margin-bottom: 16px; }
+.dash-toolbar { display:flex; align-items:center; justify-content:space-between; gap: 12px; margin: 12px 0 18px; }
 .chip { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; border:1px solid #3244a7; color:var(--text); text-decoration:none; background: rgba(255,255,255,.02); }
 .chip-badge { background: var(--primary); color:white; border-radius:999px; padding:0 6px; font-size:11px; line-height:18px; height:18px; display:inline-flex; align-items:center; }
 .course-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
@@ -87,6 +88,12 @@ nav { display:flex; justify-content:space-between; padding: 12px 24px; backgroun
 .course-card .thumb span { font-family: var(--font-display); font-size: 42px; opacity:.9; color:#aab3ff; }
 .course-card .content { padding: 14px; display:flex; flex-direction:column; }
 .course-card .row { gap: 8px; }
+
+/* instructors chips */
+.user-chips { display:flex; gap: 8px; flex-wrap: wrap; }
+.chip.user { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; border:1px solid #3244a7; background: rgba(255,255,255,.02); }
+.chip-remove { border:none; background:transparent; color: var(--muted); cursor:pointer; border-radius:6px; width:22px; height:22px; display:inline-flex; align-items:center; justify-content:center; }
+.chip-remove:hover { color: #fff; background: rgba(255,255,255,.06); }
 
 /* ===== Auth - Modern login ===== */
 .login-page { min-height: 100vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; background:
@@ -159,3 +166,5 @@ input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0; }
 /* form sizing to match login */
 .form-card input { height: 42px; font-size: 14px; }
 .form-card .btn { height: 42px; }
+.pager { display:flex; gap:8px; align-items:center; justify-content:flex-end; margin-top:16px; }
+.pager .btn { height: 32px; }

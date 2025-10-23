@@ -83,6 +83,13 @@
       "password": "123456",
       "role": "instructor",
       "id": 12
+    },
+    {
+      "name": "Pierre-Alain Morin",
+      "email": "pierre-alain.morin@example.com",
+      "password": "123456",
+      "role": "instructor",
+      "id": 13
     }
   ],
   "courses": [
@@ -120,7 +127,8 @@
         11,
         2,
         3,
-        12
+        12,
+        13
       ],
       "id": 3
     },
