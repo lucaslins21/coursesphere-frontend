@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faRightToBracket, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
+import { faRightToBracket, faTriangleExclamation, faEnvelope, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import logoUrl from '../components/media/logo.png?url'
 import { useAuth } from '../auth/AuthContext'
 
 export const Login: React.FC = () => {
@@ -11,6 +12,7 @@ export const Login: React.FC = () => {
   const [password, setPassword] = useState('123456')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [showPass, setShowPass] = useState(false)
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -20,27 +22,53 @@ export const Login: React.FC = () => {
   }
 
   return (
-    <div className="container" style={{maxWidth: 420}}>
-      <div className="card">
-        <h1 className="title"><FontAwesomeIcon icon={faRightToBracket} /> Entrar</h1>
-        <p className="subtitle">Use uma conta do seed (ana, bruno ou admin).</p>
-        <div className="space"></div>
+    <div className="login-page">
+      <div
+        className="login-card"
+        onMouseMove={(e)=>{
+          const el = e.currentTarget as HTMLDivElement
+          const b = el.getBoundingClientRect()
+          const cx = b.left + b.width/2
+          const cy = b.top + b.height/2
+          const dx = (e.clientX - cx)/b.width
+          const dy = (e.clientY - cy)/b.height
+          el.style.transform = `rotateX(${-(dy*6)}deg) rotateY(${dx*6}deg)`
+        }}
+        onMouseLeave={(e)=>{ (e.currentTarget as HTMLDivElement).style.transform = 'rotateX(0) rotateY(0)' }}
+      >
+        <img src={logoUrl} className="login-logo" alt="CourseSphere" />
         <form onSubmit={submit}>
-          <div style={{display:'grid', gap:10}}>
-            <div><label>Email</label><input value={email} onChange={e=>setEmail(e.target.value)} placeholder="email" /></div>
-            <div><label>Senha</label><input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="senha" /></div>
+          <div className="login-actions">
+            <div className="field">
+              <label>Email</label>
+              <div className="input-wrap">
+                <input value={email} onChange={e=>setEmail(e.target.value)} placeholder="email" />
+                <span className="icon-right"><FontAwesomeIcon icon={faEnvelope} /></span>
+              </div>
+            </div>
+            <div className="field">
+              <label>Senha</label>
+              <div className="input-wrap">
+                <input type={showPass? 'text':'password'} value={password} onChange={e=>setPassword(e.target.value)} placeholder="senha" />
+                <button type="button" className="icon-right" onClick={()=>setShowPass(s => !s)} aria-label="Mostrar/ocultar senha">
+                  <FontAwesomeIcon icon={showPass? faEyeSlash : faEye} />
+                </button>
+              </div>
+            </div>
             {error && (
               <div className="badge" style={{borderColor:'#b5484a'}}>
                 <FontAwesomeIcon icon={faTriangleExclamation} /> {error}
               </div>
             )}
-            <button className="btn" disabled={loading}><FontAwesomeIcon icon={faRightToBracket} /> {loading? 'Entrando...' : 'Entrar'}</button>
+            <div className="login-cta">
+              <button className="btn gradient" disabled={loading}>
+                <FontAwesomeIcon icon={faRightToBracket} /> {loading? 'Entrando...' : 'Entrar'}
+              </button>
+            </div>
           </div>
         </form>
-        <div className="space"></div>
-        <p className="muted">Ainda não tem conta? <Link to="/register">Criar conta</Link></p>
+        <p className="muted login-foot">Ainda não tem conta? <Link to="/register">Criar conta</Link></p>
       </div>
     </div>
   )
 }
-
