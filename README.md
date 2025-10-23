@@ -1,29 +1,141 @@
-# CourseSphere — v2 Plus
-- API CommonJS (`json-server@0.17.4`)
-- Web com **paginação** nas aulas e **CourseForm** (criar/editar) com validação `end_date > start_date`.
+# CourseSphere — Front‑end
 
-## Rodar
-# 1) API
+Aplicação web para gestão colaborativa de cursos e aulas. Feita em React (Vite + TS) com uma API mock (json‑server).
+
+- Demo (deploy): https://coursesphere-frontend.vercel.app/login
+- Documento do desafio: `docs/desafio-frontend.md`
+
+## Sumário
+- Visão geral e funcionalidades
+- Estrutura do projeto
+- Como rodar localmente (API + Web)
+- Variáveis de ambiente e build
+- Fluxos adicionais implementados (convites etc.)
+- Design System (toasts, popups, navbar, formulários)
+- Dicas de deploy (Vercel) e problemas comuns
+
+## Visão geral e funcionalidades
+Atende às regras e telas descritas no desafio, com alguns aprimoramentos.
+
+- Autenticação (login e cadastro)
+- Dashboard com cards de cursos e botão “Criar curso”
+- Detalhes do curso: descrição, período, lista de instrutores, grade de aulas
+- Aulas: paginação, busca por título, filtro por status, ações de editar/excluir
+- Formulários de criar/editar curso e aula com validações via Zod
+- Permissões: criador do curso gerencia curso/instrutores; criador da aula pode editar/excluir a própria aula
+- Convites de instrutor: criador convida, convidado aceita (fluxo descrito abaixo)
+
+Extras implementados
+- UI modernizada (cards “glass”, gradientes, navbar minimalista)
+- Toasts de feedback (sucesso/erro/info)
+- Popup de confirmação para ações críticas (excluir, sair, sair sem salvar)
+- Inputs com ícones, datas com calendário clicável (FA + showPicker)
+
+## Estrutura
+
+```
+api/                # json-server (CommonJS)
+apps/web/           # Front-end Vite + React + TS
+  src/
+    app/            # router
+    auth/           # contexto de auth
+    components/     # ui, form, media, layout, feedback
+    features/       # courses, lessons
+    pages/          # login, register, invitations
+    lib/axios.ts    # cliente HTTP c/ VITE_API_URL
+    env.d.ts        # tipos do Vite
+  index.html
+  vercel.json       # rewrites SPA (deploy)
+```
+
+## Como rodar localmente
+Pré‑requisitos: Node 18+ e npm.
+
+1) API (json‑server)
+```
 cd api
 npm i
-npm run start
+npm run start   # sobe em http://localhost:3333
+```
 
-# 2) Web
+2) Web (Vite)
+```
 cd ../apps/web
 npm i
-cp .env.example .env
-npm run dev
+cp .env.example .env   # VITE_API_URL=http://localhost:3333
+npm run dev            # http://localhost:5173
+```
 
+Credenciais de exemplo (api/db.json)
+- Email: `ana@curso.com`  Senha: `123456`
+- Email: `bruno@curso.com`  Senha: `123456`
+- Email: `admin@curso.com`  Senha: `123456`
 
-## Observação (Windows / acentuação)
-- Se ao visualizar arquivos no terminal aparecerem caracteres estranhos (�, ??), é apenas a codificação do console.
-- O projeto está salvo em UTF‑8. Para ver corretamente no PowerShell:
-  - Execute: `chcp 65001`
-  - E opcionalmente: `$OutputEncoding = [Console]::OutputEncoding = [System.Text.Encoding]::UTF8`
-- Em editores (VS Code, etc.), garanta que a codificação esteja como `UTF-8`.
+## Variáveis de ambiente e build
 
+- `VITE_API_URL`: URL da API (ex.: http://localhost:3333). Em produção, use a URL pública da sua API.
 
+Build local (gera `dist/`):
+```
+cd apps/web
+npm run build
+```
 
+## Fluxos adicionais implementados
 
+### Convites de instrutor
+- Tela “Convites” (rota protegida) lista convites pendentes para o email logado.
+- O criador do curso envia convites na seção “Gerenciamento do curso”.
+- O convidado precisa aceitar o convite (para evitar manipular diretamente instrutores sugeridos).
+- API externa `randomuser.me` usada para “Sugerir instrutor” (gera um usuário de teste quando necessário).
 
+### Cadastro
+- Formulário com validação (nome, email único, senha mínima).
+- Erros do backend exibidos inline nos inputs (sem alert).
 
+### Popups de confirmação
+- Ações críticas (excluir curso/aula, remover instrutor, sair, sair sem salvar) usam um modal consistente com a UI, sem bloquear navegação.
+
+## Design System aplicado
+- Navbar com logo à esquerda, ícones à direita (convites, usuário, sair).
+- Cards e formulários com “glass/gradient”, ícones de ação e estados.
+- Toasts modernos (ícone, barra de progresso) e modal de confirmação com overlay.
+- Campos de data com ícone de calendário clicável (abre o picker nativo).
+
+## Deploy (Vercel)
+
+Projeto já inclui `apps/web/vercel.json` para funcionar como SPA:
+
+```
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
+  ]
+}
+```
+
+Passos de configuração recomendados:
+- Root Directory: `apps/web`
+- Build Command: `npm run build`
+- Output Directory: `dist`
+- Environment Variables: `VITE_API_URL=https://SUA-API-PUBLICA`
+
+Problemas comuns
+- 404 ao dar F5 em rotas → faltava rewrite de SPA (resolvido pelo vercel.json).
+- Login não funciona no deploy → `VITE_API_URL` apontando para `localhost`. Defina a URL pública da API.
+
+## Endpoints relevantes (mock)
+- `POST /login` → retorna `{ token, user }`
+- `POST /register` → valida e cria novo usuário
+- `GET /courses`, `GET /courses/:id`
+- `GET/POST/PATCH/DELETE /lessons`
+- `POST /invitations` (criar), `POST /invitations/:id/accept`, `POST /invitations/:id/decline`
+
+## Notas Windows (acentuação)
+Se caracteres aparecerem “estranhos” no terminal (apenas console):
+- PowerShell: `chcp 65001` e opcional `$OutputEncoding = [Console]::OutputEncoding = [System.Text.Encoding]::UTF8`.
+- O projeto está salvo em UTF‑8; editores como VS Code já exibem corretamente.
+
+---
+
+Qualquer dúvida, abra uma issue. Boa avaliação e bom proveito! 🎓

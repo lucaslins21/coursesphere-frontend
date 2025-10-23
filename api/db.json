@@ -104,6 +104,13 @@
       "email": "luan@curso.com",
       "password": "123456",
       "role": "instructor"
+    },
+    {
+      "name": "Nadja Tomić",
+      "email": "nadja.tomic@example.com",
+      "password": "123456",
+      "role": "instructor",
+      "id": 16
     }
   ],
   "courses": [
@@ -142,7 +149,8 @@
         2,
         3,
         12,
-        13
+        13,
+        16
       ],
       "id": 3
     },
