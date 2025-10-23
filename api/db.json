@@ -90,6 +90,20 @@
       "password": "123456",
       "role": "instructor",
       "id": 13
+    },
+    {
+      "id": 14,
+      "name": "Lucas Lins",
+      "email": "lucas@curso.com",
+      "password": "123456",
+      "role": "instructor"
+    },
+    {
+      "id": 15,
+      "name": "luan",
+      "email": "luan@curso.com",
+      "password": "123456",
+      "role": "instructor"
     }
   ],
   "courses": [
@@ -142,6 +156,18 @@
         1
       ],
       "id": 4
+    },
+    {
+      "name": "cursin",
+      "description": "cursao",
+      "start_date": "2025-10-23",
+      "end_date": "2025-10-30",
+      "creator_id": 14,
+      "instructors": [
+        14,
+        1
+      ],
+      "id": 5
     }
   ],
   "lessons": [
@@ -283,6 +309,16 @@
       "token": "kuo1gkp4beemh2nnqrt",
       "created_at": "2025-10-22T23:59:41.129Z",
       "accepted_at": "2025-10-22T23:59:59.325Z"
+    },
+    {
+      "id": 3,
+      "course_id": 5,
+      "email": "ana@curso.com",
+      "inviter_id": 14,
+      "status": "accepted",
+      "token": "76ry1ao816hmh3xf3lf",
+      "created_at": "2025-10-23T21:20:40.179Z",
+      "accepted_at": "2025-10-23T21:22:18.098Z"
     }
   ]
 }

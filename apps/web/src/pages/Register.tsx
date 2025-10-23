@@ -1,6 +1,6 @@
 ﻿import React from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { api } from '../lib/axios'
@@ -24,7 +24,7 @@ type FormData = z.infer<typeof schema>
 export const Register: React.FC = () => {
   const nav = useNavigate()
   const { login } = useAuth()
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
+  const { register, handleSubmit, control, formState: { errors, isSubmitting } } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       name: '',
@@ -61,11 +61,17 @@ export const Register: React.FC = () => {
             error={errors.email?.message}
             right={<FontAwesomeIcon icon={faEnvelope} />}
           />
-          <PasswordInput
-            label="Senha"
-            placeholder="mínimo 6 caracteres"
-            {...register('password')}
-            error={errors.password?.message}
+          <Controller
+            name="password"
+            control={control}
+            render={({ field }) => (
+              <PasswordInput
+                label="Senha"
+                placeholder="mínimo 6 caracteres"
+                {...field}
+                error={errors.password?.message}
+              />
+            )}
           />
           <div className="login-cta">
             <Button variant="gradient" disabled={isSubmitting} full>
@@ -78,4 +84,3 @@ export const Register: React.FC = () => {
     </div>
   )
 }
-
