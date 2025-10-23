@@ -131,8 +131,8 @@
       ]
     },
     {
-      "name": "Data Science",
-      "description": "Data science é uma área interdisciplinar que combina estatística, matemática, programação e conhecimento de negócios para extrair valor e insights de dados.",
+      "name": "Data Sciencee",
+      "description": "Data science é uma área interdisciplinar.",
       "start_date": "2025-10-22",
       "end_date": "2025-10-29",
       "creator_id": 1,
@@ -287,6 +287,15 @@
       "course_id": 1,
       "creator_id": 1,
       "id": 13
+    },
+    {
+      "title": "Nova aula",
+      "status": "draft",
+      "publish_date": "2025-10-24",
+      "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "course_id": 5,
+      "creator_id": 1,
+      "id": 14
     }
   ],
   "invitations": [

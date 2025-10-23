@@ -6,6 +6,7 @@ import { AuthProvider } from './auth/AuthContext'
 import { router } from './app/router'
 import './styles.css'
 import { ToastProvider } from './components/feedback/Toast'
+import { ConfirmProvider } from './components/ui/Confirm'
 
 const qc = new QueryClient()
 
@@ -13,9 +14,11 @@ createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={qc}>
       <ToastProvider>
-        <AuthProvider>
-          <RouterProvider router={router} />
-        </AuthProvider>
+        <ConfirmProvider>
+          <AuthProvider>
+            <RouterProvider router={router} />
+          </AuthProvider>
+        </ConfirmProvider>
       </ToastProvider>
     </QueryClientProvider>
   </React.StrictMode>

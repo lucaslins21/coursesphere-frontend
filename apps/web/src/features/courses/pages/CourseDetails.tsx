@@ -7,6 +7,7 @@ import { useAuth } from '../../../auth/AuthContext'
 import { Pagination } from '../../../components/ui/Pagination'
 import { VideoThumb } from '../../../components/media/VideoThumb'
 import { useToast } from '../../../components/feedback/Toast'
+import { useConfirm } from '../../../components/ui/Confirm'
 
 type Course = { id:number; name:string; description?:string; start_date:string; end_date:string; creator_id:number; instructors:number[] }
 type Lesson = { id:number; title:string; status:'draft'|'published'|'archived'; publish_date:string; video_url:string; course_id:number; creator_id:number }
@@ -30,6 +31,7 @@ export const CourseDetails: React.FC = () => {
   const { push } = useToast()
   const [inviteEmail, setInviteEmail] = useState('')
   const [sendingInvite, setSendingInvite] = useState(false)
+  const { confirm: confirmModal } = useConfirm()
 
   useEffect(() => {
     (async () => {
@@ -76,7 +78,14 @@ export const CourseDetails: React.FC = () => {
 
   const removeInstructor = async (uid:number) => {
     if (!course) return
-    if (!confirm('Remover este instrutor do curso?')) return
+    const ok = await confirmModal({
+      title: 'Remover instrutor',
+      message: `Tem certeza que deseja remover ${nameOf(uid)} deste curso?`,
+      tone: 'danger',
+      confirmText: 'Remover',
+      cancelText: 'Cancelar'
+    })
+    if (!ok) return
     try {
       const next = course.instructors.filter(i => i !== uid)
       const { data } = await api.patch<Course>(`/courses/${course.id}`, { instructors: next })
@@ -121,7 +130,14 @@ export const CourseDetails: React.FC = () => {
 
   const deleteCourse = async () => {
     if (!course) return
-    if (!confirm('Tem certeza que deseja excluir este curso?')) return
+    const ok = await confirmModal({
+      title: 'Excluir curso',
+      message: 'Tem certeza que deseja excluir este curso? Esta ação não pode ser desfeita.',
+      tone: 'danger',
+      confirmText: 'Excluir',
+      cancelText: 'Cancelar'
+    })
+    if (!ok) return
     try {
       await api.delete(`/courses/${course.id}`)
       push('success', 'Curso excluído')
@@ -211,8 +227,15 @@ export const CourseDetails: React.FC = () => {
                   <Link className="btn gradient sm" to={`/courses/${course.id}/lessons/${l.id}/edit`}><FontAwesomeIcon icon={faPenToSquare} /> Editar</Link>
                   <button
                     className="btn ghost sm"
-                    onClick={async () => {
-                      if (!confirm('Confirma excluir a aula?')) return
+                  onClick={async () => {
+                      const ok = await confirmModal({
+                        title: 'Excluir aula',
+                        message: `Confirma excluir a aula “${l.title}”?`,
+                        tone: 'danger',
+                        confirmText: 'Excluir',
+                        cancelText: 'Cancelar'
+                      })
+                      if (!ok) return
                       try {
                         await api.delete(`/lessons/${l.id}`)
                         setLessons(prev => prev.filter(x => x.id !== l.id))

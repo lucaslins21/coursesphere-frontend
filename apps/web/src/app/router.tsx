@@ -14,6 +14,7 @@ import { useAuth } from '../auth/AuthContext'
 import { NotAllowed } from '../pages/NotAllowed'
 import { Invitations } from '../pages/Invitations'
 import { api } from '../lib/axios'
+import { useConfirm } from '../components/ui/Confirm'
 
 const Guard: React.FC<React.PropsWithChildren> = ({ children }) => {
   const auth = useAuth()
@@ -28,6 +29,7 @@ const AppLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
   const user = auth.user
   const nav = useNavigate()
   const [invCount, setInvCount] = useState(0)
+  const { confirm } = useConfirm()
 
   useEffect(() => {
     let mounted = true
@@ -58,7 +60,16 @@ const AppLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
                 <div className="avatar"><FontAwesomeIcon icon={faUser} /></div>
                 <span className="name">{user.name}</span>
               </div>
-              <button type="button" className="icon-btn" onClick={() => { auth.logout(); nav('/login', { replace:true }) }} aria-label="Sair">
+              <button
+                type="button"
+                className="icon-btn"
+                onClick={async () => {
+                  const ok = await confirm({ title: 'Sair da conta?', message: 'Você deseja encerrar a sessão agora?', confirmText: 'Sair', cancelText:'Cancelar', tone: 'danger' })
+                  if (!ok) return
+                  auth.logout(); nav('/login', { replace:true })
+                }}
+                aria-label="Sair"
+              >
                 <FontAwesomeIcon icon={faRightFromBracket} />
               </button>
             </>
