@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft, faBook, faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import { api } from '../lib/axios'
 import { useAuth } from '../auth/AuthContext'
@@ -40,17 +42,17 @@ export const Invitations: React.FC = () => {
     <div>
       <div className="row" style={{alignItems:'center', justifyContent:'space-between'}}>
         <h1 className="title" style={{margin:0}}>Convites</h1>
-        <Link to="/" className="btn ghost">Voltar ao dashboard</Link>
+        <Link to="/" className="btn ghost"><FontAwesomeIcon icon={faArrowLeft} /> Voltar ao dashboard</Link>
       </div>
       {!items.length && <p className="muted">Nenhum convite pendente.</p>}
       <div className="grid">
         {items.map(inv => (
           <div className="card" key={inv.id}>
-            <strong>{courses[inv.course_id]?.name || `Curso ${inv.course_id}`}</strong>
+            <strong><FontAwesomeIcon icon={faBook} /> {courses[inv.course_id]?.name || `Curso ${inv.course_id}`}</strong>
             <p className="muted">Você foi convidado para ser instrutor.</p>
             <div className="row">
-              <button className="btn" onClick={()=>accept(inv.id)}>Aceitar</button>
-              <button className="btn ghost" onClick={()=>decline(inv.id)}>Recusar</button>
+              <button className="btn" onClick={()=>accept(inv.id)}><FontAwesomeIcon icon={faCheck} /> Aceitar</button>
+              <button className="btn ghost" onClick={()=>decline(inv.id)}><FontAwesomeIcon icon={faXmark} /> Recusar</button>
             </div>
           </div>
         ))}

@@ -1,4 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus, faEnvelope, faEye, faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 import { api } from '../../../lib/axios'
 import { useAuth } from '../../../auth/AuthContext'
@@ -30,8 +32,8 @@ export const Dashboard: React.FC = () => {
       <div className="toolbar">
         <input value={q} onChange={(e)=>setQ(e.target.value)} placeholder="Buscar por nome ou descrição"/>
         <div className="row">
-          <Link className="btn" to="/courses/new">Criar curso</Link>
-          <Link className="btn ghost" to="/invitations">Convites{invCount>0 && <span className="badge" style={{marginLeft:6}}>{invCount}</span>}</Link>
+          <Link className="btn" to="/courses/new"><FontAwesomeIcon icon={faPlus} /> Criar curso</Link>
+          <Link className="btn ghost" to="/invitations"><FontAwesomeIcon icon={faEnvelope} /> Convites{invCount>0 && <span className="badge" style={{marginLeft:6}}>{invCount}</span>}</Link>
           <span className="muted">{filtered.length} curso(s)</span>
         </div>
       </div>
@@ -47,8 +49,8 @@ export const Dashboard: React.FC = () => {
             </div>
             <div className="space"></div>
             <div className="row">
-              <Link className="btn" to={`/courses/${c.id}`}>Ver detalhes</Link>
-              {c.creator_id === user!.id && <Link className="btn ghost" to={`/courses/${c.id}/edit`}>Editar</Link>}
+              <Link className="btn" to={`/courses/${c.id}`}><FontAwesomeIcon icon={faEye} /> Ver detalhes</Link>
+              {c.creator_id === user!.id && <Link className="btn ghost" to={`/courses/${c.id}/edit`}><FontAwesomeIcon icon={faPenToSquare} /> Editar</Link>}
             </div>
           </div>
         ))}

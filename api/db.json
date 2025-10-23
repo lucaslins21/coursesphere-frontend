@@ -76,6 +76,13 @@
       "password": "123456",
       "role": "instructor",
       "id": 11
+    },
+    {
+      "name": "Mauro Valladares",
+      "email": "mauro.valladares@example.com",
+      "password": "123456",
+      "role": "instructor",
+      "id": 12
     }
   ],
   "courses": [
@@ -112,7 +119,8 @@
         1,
         11,
         2,
-        3
+        3,
+        12
       ],
       "id": 3
     }

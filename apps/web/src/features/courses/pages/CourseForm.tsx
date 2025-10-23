@@ -101,8 +101,8 @@ export const CourseForm: React.FC<{ mode: Mode }> = ({ mode }) => {
           </div>
         </div>
         <div className="row">
-          <button className="btn" disabled={isSubmitting}>{isSubmitting? 'Salvando...' : 'Salvar'}</button>
-          <button type="button" className="btn ghost" onClick={()=>nav(-1)}>Cancelar</button>
+          <button className="btn" disabled={isSubmitting}><i className="fa-solid fa-floppy-disk"></i> {isSubmitting? 'Salvando...' : 'Salvar'}</button>
+          <button type="button" className="btn ghost" onClick={()=>nav(-1)}><i className="fa-solid fa-rotate-left"></i> Cancelar</button>
         </div>
       </form>
     </div>

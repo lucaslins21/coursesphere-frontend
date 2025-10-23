@@ -1,4 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowLeft, faPenToSquare, faPlus, faUserMinus, faPaperPlane, faWandMagicSparkles, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { api } from '../../../lib/axios'
 import { useAuth } from '../../../auth/AuthContext'
@@ -138,7 +140,7 @@ export const CourseDetails: React.FC = () => {
     <div>
       <div className="row" style={{alignItems:'center', justifyContent:'space-between'}}>
         <h1 className="title" style={{margin:0}}>{course.name}</h1>
-        <Link className="btn ghost" to="/">Voltar ao dashboard</Link>
+        <Link className="btn ghost" to="/"><FontAwesomeIcon icon={faArrowLeft} /> Voltar ao dashboard</Link>
       </div>
       <p className="subtitle">Criador: <strong>{nameOf(course.creator_id)}</strong></p>
       {course.description && (
@@ -150,7 +152,7 @@ export const CourseDetails: React.FC = () => {
       </div>
       <div className="row" style={{marginTop:8}}>
         <span className="badge">Instrutores: {course.instructors.map(nameOf).join(', ') || '—'}</span>
-        {canManage && <Link className="btn ghost" to={`/courses/${course.id}/edit`}>Editar curso</Link>}
+        {canManage && <Link className="btn ghost" to={`/courses/${course.id}/edit`}><FontAwesomeIcon icon={faPenToSquare} /> Editar curso</Link>}
       </div>
 
       <div className="space"></div>
@@ -164,7 +166,7 @@ export const CourseDetails: React.FC = () => {
             <option value="archived">Arquivada</option>
           </select>
         </div>
-        {isInstructor && <Link className="btn" to={`/courses/${course.id}/lessons/new`}>Nova aula</Link>}
+        {isInstructor && <Link className="btn" to={`/courses/${course.id}/lessons/new`}><FontAwesomeIcon icon={faPlus} /> Nova aula</Link>}
       </div>
 
       {loading && <p className="muted">Carregando aulas...</p>}
@@ -220,7 +222,7 @@ export const CourseDetails: React.FC = () => {
                 <div key={uid} className="badge" style={{display:'flex', alignItems:'center', gap:8}}>
                   <span>{nameOf(uid)}</span>
                   {!isCreator(uid) && (
-                    <button className="btn ghost" onClick={()=>removeInstructor(uid)}>Remover</button>
+                    <button className="btn ghost" onClick={()=>removeInstructor(uid)}><FontAwesomeIcon icon={faUserMinus} /> Remover</button>
                   )}
                 </div>
               ))}
@@ -228,12 +230,12 @@ export const CourseDetails: React.FC = () => {
           <div className="space" />
           <div className="row">
             <input style={{maxWidth:320}} placeholder="Convidar por e-mail" value={inviteEmail} onChange={e=>setInviteEmail(e.target.value)} />
-            <button className="btn" onClick={sendInvite} disabled={sendingInvite}>{sendingInvite? 'Enviando...' : 'Convidar'}</button>
-            <button className="btn ghost" onClick={addSuggestedInstructor}>Adicionar instrutor sugerido</button>
+            <button className="btn" onClick={sendInvite} disabled={sendingInvite}><FontAwesomeIcon icon={faPaperPlane} /> {sendingInvite? 'Enviando...' : 'Convidar'}</button>
+            <button className="btn ghost" onClick={addSuggestedInstructor}><FontAwesomeIcon icon={faWandMagicSparkles} /> Adicionar instrutor sugerido</button>
           </div>
           </div>
           <div className="space" />
-          <button className="btn ghost" onClick={deleteCourse}>Excluir curso</button>
+          <button className="btn ghost" onClick={deleteCourse}><FontAwesomeIcon icon={faTrash} /> Excluir curso</button>
         </div>
       )}
     </div>

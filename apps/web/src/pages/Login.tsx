@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faRightToBracket, faTriangleExclamation } from '@fortawesome/free-solid-svg-icons'
 import { useAuth } from '../auth/AuthContext'
 
 export const Login: React.FC = () => {
@@ -20,15 +22,19 @@ export const Login: React.FC = () => {
   return (
     <div className="container" style={{maxWidth: 420}}>
       <div className="card">
-        <h1 className="title">Entrar</h1>
+        <h1 className="title"><FontAwesomeIcon icon={faRightToBracket} /> Entrar</h1>
         <p className="subtitle">Use uma conta do seed (ana, bruno ou admin).</p>
         <div className="space"></div>
         <form onSubmit={submit}>
           <div style={{display:'grid', gap:10}}>
             <div><label>Email</label><input value={email} onChange={e=>setEmail(e.target.value)} placeholder="email" /></div>
             <div><label>Senha</label><input type="password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="senha" /></div>
-            {error && <div className="badge" style={{borderColor:'#b5484a'}}>⚠️ {error}</div>}
-            <button className="btn" disabled={loading}>{loading? 'Entrando...' : 'Entrar'}</button>
+            {error && (
+              <div className="badge" style={{borderColor:'#b5484a'}}>
+                <FontAwesomeIcon icon={faTriangleExclamation} /> {error}
+              </div>
+            )}
+            <button className="btn" disabled={loading}><FontAwesomeIcon icon={faRightToBracket} /> {loading? 'Entrando...' : 'Entrar'}</button>
           </div>
         </form>
         <div className="space"></div>
@@ -37,3 +43,4 @@ export const Login: React.FC = () => {
     </div>
   )
 }
+
