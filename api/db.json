@@ -117,8 +117,8 @@
       ]
     },
     {
-      "name": "data science",
-      "description": "testeeeee",
+      "name": "Data Science",
+      "description": "Data science é uma área interdisciplinar que combina estatística, matemática, programação e conhecimento de negócios para extrair valor e insights de dados. Seu objetivo é transformar dados brutos em conhecimento acionável para apoiar a tomada de decisões estratégicas, utilizando ferramentas como aprendizado de máquina, modelagem preditiva e visualização de dados. ",
       "start_date": "2025-10-22",
       "end_date": "2025-10-29",
       "creator_id": 1,
@@ -180,6 +180,78 @@
       "course_id": 3,
       "creator_id": 2,
       "id": 4
+    },
+    {
+      "title": "Nova aula",
+      "status": "draft",
+      "publish_date": "2025-10-24",
+      "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "course_id": 3,
+      "creator_id": 1,
+      "id": 5
+    },
+    {
+      "title": "Nova aula",
+      "status": "draft",
+      "publish_date": "2025-10-24",
+      "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "course_id": 3,
+      "creator_id": 1,
+      "id": 6
+    },
+    {
+      "title": "Nova aula",
+      "status": "draft",
+      "publish_date": "2025-10-24",
+      "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "course_id": 3,
+      "creator_id": 1,
+      "id": 7
+    },
+    {
+      "title": "Nova aula",
+      "status": "draft",
+      "publish_date": "2025-10-24",
+      "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "course_id": 3,
+      "creator_id": 1,
+      "id": 8
+    },
+    {
+      "title": "Nova aula",
+      "status": "draft",
+      "publish_date": "2025-10-24",
+      "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "course_id": 3,
+      "creator_id": 1,
+      "id": 9
+    },
+    {
+      "title": "Nova aula",
+      "status": "draft",
+      "publish_date": "2025-10-24",
+      "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "course_id": 3,
+      "creator_id": 1,
+      "id": 10
+    },
+    {
+      "title": "Nova aula",
+      "status": "draft",
+      "publish_date": "2025-10-24",
+      "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "course_id": 3,
+      "creator_id": 1,
+      "id": 11
+    },
+    {
+      "title": "Nova aula",
+      "status": "draft",
+      "publish_date": "2025-10-24",
+      "video_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "course_id": 3,
+      "creator_id": 1,
+      "id": 12
     }
   ],
   "invitations": [

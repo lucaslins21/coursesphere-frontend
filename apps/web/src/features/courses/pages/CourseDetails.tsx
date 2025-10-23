@@ -21,7 +21,7 @@ export const CourseDetails: React.FC = () => {
   const [q, setQ] = useState('')
   const [status, setStatus] = useState<string>('')
   const [page, setPage] = useState(1)
-  const [perPage] = useState(8)
+  const [perPage, setPerPage] = useState(9)
   const [lessons, setLessons] = useState<Lesson[]>([])
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(false)
@@ -40,6 +40,20 @@ export const CourseDetails: React.FC = () => {
       setCourse(c.data); setUsers(u.data)
     })()
   }, [id])
+
+  useEffect(() => {
+    const calcPerPage = () => {
+      const w = window.innerWidth
+      // Ajusta para caber 3x3 em telas largas
+      if (w >= 1400) return 9
+      if (w >= 1000) return 6
+      return 4
+    }
+    setPerPage(calcPerPage())
+    const onResize = () => setPerPage(calcPerPage())
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
 
   useEffect(() => {
     (async () => {
