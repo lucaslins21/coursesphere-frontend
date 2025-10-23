@@ -6,15 +6,31 @@ type AuthCtx = { user: User | null; login: (email:string,password:string)=>Promi
 const Ctx = createContext<AuthCtx | null>(null)
 
 export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null)
-  useEffect(() => { const saved = localStorage.getItem('user'); if (saved) setUser(JSON.parse(saved)) }, [])
+  const [user, setUser] = useState<User | null>(() => {
+    try {
+      const saved = localStorage.getItem('user')
+      return saved ? JSON.parse(saved) as User : null
+    } catch { return null }
+  })
+  useEffect(() => {
+    // ensure auth header is applied on reloads
+    const token = localStorage.getItem('token')
+    if (token) {
+      try { (api.defaults.headers as any).Authorization = `Bearer ${token}` } catch {}
+    }
+  }, [])
   const login = async (email:string, password:string) => {
     const { data } = await api.post('/login', { email, password })
     localStorage.setItem('token', data.token)
     localStorage.setItem('user', JSON.stringify(data.user))
     setUser(data.user)
   }
-  const logout = () => { localStorage.removeItem('token'); localStorage.removeItem('user'); setUser(null) }
+  const logout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    try { delete (api.defaults.headers as any).Authorization } catch {}
+    setUser(null)
+  }
   const value = useMemo(() => ({ user, login, logout }), [user])
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>
 }
