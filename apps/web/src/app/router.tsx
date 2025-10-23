@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { createBrowserRouter, Navigate, Link } from 'react-router-dom'
+import { createBrowserRouter, Navigate, Link, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHouse, faEnvelope, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { faEnvelope, faUser, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import logoUrl from '../components/media/logosemnome.png?url'
 
 import { Login } from '../pages/Login'
 import { Register } from '../pages/Register'
@@ -15,13 +16,17 @@ import { Invitations } from '../pages/Invitations'
 import { api } from '../lib/axios'
 
 const Guard: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const { user } = useAuth()
+  const auth = useAuth()
+  const nav = useNavigate()
+  const user = auth.user
   if (!user) return <Navigate to="/login" replace />
   return <>{children}</>
 }
 
 const AppLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const { user, logout } = useAuth()
+  const auth = useAuth()
+  const user = auth.user
+  const nav = useNavigate()
   const [invCount, setInvCount] = useState(0)
 
   useEffect(() => {
@@ -38,22 +43,23 @@ const AppLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
 
   return (
     <div>
-      <nav>
-        <strong>CourseSphere</strong>
-        <div>
+      <nav className="appbar">
+        <Link to="/" className="brand" aria-label="Ir para Dashboard">
+          <img src={logoUrl} alt="CourseSphere" />
+        </Link>
+        <div className="nav-right">
           {user ? (
             <>
-              <Link to="/" className="btn ghost" style={{ marginRight: 8 }}>
-                <FontAwesomeIcon icon={faHouse} /> Dashboard
+              <Link to="/invitations" className="icon-btn" aria-label="Convites">
+                <FontAwesomeIcon icon={faEnvelope} />
+                {invCount > 0 && <span className="notif-dot">{invCount}</span>}
               </Link>
-              <Link to="/invitations" className="btn ghost" style={{ marginRight: 8 }}>
-                <FontAwesomeIcon icon={faEnvelope} /> Convites{invCount > 0 && (
-                  <span className="badge" style={{ marginLeft: 6 }}>{invCount}</span>
-                )}
-              </Link>
-              <span style={{ marginRight: 12 }}>Olá, {user.name}</span>
-              <button className="btn ghost" onClick={logout}>
-                <FontAwesomeIcon icon={faRightFromBracket} /> Sair
+              <div className="user-chip" title={user.name} aria-label={`Usuário ${user.name}`}>
+                <div className="avatar"><FontAwesomeIcon icon={faUser} /></div>
+                <span className="name">{user.name}</span>
+              </div>
+              <button type="button" className="icon-btn" onClick={() => { auth.logout(); nav('/login', { replace:true }) }} aria-label="Sair">
+                <FontAwesomeIcon icon={faRightFromBracket} />
               </button>
             </>
           ) : null}
@@ -76,4 +82,3 @@ export const router = createBrowserRouter([
   { path: '/courses/:courseId/lessons/new', element: <Guard><AppLayout><LessonForm mode="create" /></AppLayout></Guard> },
   { path: '/courses/:courseId/lessons/:lessonId/edit', element: <Guard><AppLayout><LessonForm mode="edit" /></AppLayout></Guard> }
 ])
-

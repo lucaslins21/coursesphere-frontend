@@ -57,6 +57,18 @@ label { font-size: 12px; opacity:.85; }
 .badge { display:inline-flex; align-items:center; gap:6px; padding:2px 10px; border-radius:999px; border:1px solid #3244a7; font-size:12px; }
 .toolbar { display:flex; gap: var(--space-3); align-items:center; justify-content:space-between; margin: var(--space-3) 0 var(--space-4); }
 nav { display:flex; justify-content:space-between; padding: 12px 24px; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
+/* minimal appbar */
+.appbar { gap: 16px; height: 56px; padding: 0 16px; align-items: center; }
+.appbar .brand { display:inline-flex; align-items:center; gap:8px; color: var(--text); font-weight: 700; line-height: 0; }
+.appbar .brand img { height: 30px; width: 30px; display:block; filter: drop-shadow(0 4px 14px rgba(124,124,255,.25)); }
+.appbar .nav-right { display:flex; align-items:center; gap: 20px; height: 100%; }
+.icon-btn { position: relative; width: 24px; height: 24px; display:inline-flex; align-items:center; justify-content:center; border-radius: 6px; color: var(--text); background: transparent; border:none; font-size: 14px; transition: color .15s ease, transform .05s ease; cursor: pointer; line-height: 0; }
+.icon-btn:hover { color: #ffffff; }
+.icon-btn:active { transform: translateY(0.5px); }
+.notif-dot { position:absolute; top:-6px; right:-6px; min-width: 18px; height: 18px; padding:0 5px; background: var(--primary); color:white; border-radius: 999px; font-size: 11px; display:inline-flex; align-items:center; justify-content:center; border: 2px solid var(--surface); }
+.user-chip { position: relative; width: 24px; height: 24px; display:flex; align-items:center; justify-content:center; }
+.user-chip .avatar { width: 24px; height: 24px; border-radius: 6px; display:flex; align-items:center; justify-content:center; background: transparent; border:none; font-size: 14px; line-height: 0; }
+.user-chip .name { position: absolute; left: 50%; transform: translateX(-50%); bottom: -10px; font-size: 11px; color: var(--muted); line-height: 1; white-space: nowrap; pointer-events: none; }
 
 /* Media */
 .video-thumb { border-radius: var(--radius-sm); overflow: hidden; }
