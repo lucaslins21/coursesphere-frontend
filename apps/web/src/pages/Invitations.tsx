@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { api } from '../lib/axios'
 import { useAuth } from '../auth/AuthContext'
 import { useToast } from '../components/feedback/Toast'
@@ -37,7 +38,10 @@ export const Invitations: React.FC = () => {
 
   return (
     <div>
-      <h1 className="title">Convites</h1>
+      <div className="row" style={{alignItems:'center', justifyContent:'space-between'}}>
+        <h1 className="title" style={{margin:0}}>Convites</h1>
+        <Link to="/" className="btn ghost">Voltar ao dashboard</Link>
+      </div>
       {!items.length && <p className="muted">Nenhum convite pendente.</p>}
       <div className="grid">
         {items.map(inv => (
@@ -54,4 +58,3 @@ export const Invitations: React.FC = () => {
     </div>
   )
 }
-

@@ -111,7 +111,8 @@
       "instructors": [
         1,
         11,
-        2
+        2,
+        3
       ],
       "id": 3
     }
@@ -164,6 +165,16 @@
       "token": "mgv2vt32l8mh2n6cis",
       "created_at": "2025-10-22T23:46:09.508Z",
       "accepted_at": "2025-10-22T23:46:36.765Z"
+    },
+    {
+      "id": 2,
+      "course_id": 3,
+      "email": "admin@curso.com",
+      "inviter_id": 1,
+      "status": "accepted",
+      "token": "kuo1gkp4beemh2nnqrt",
+      "created_at": "2025-10-22T23:59:41.129Z",
+      "accepted_at": "2025-10-22T23:59:59.325Z"
     }
   ]
 }

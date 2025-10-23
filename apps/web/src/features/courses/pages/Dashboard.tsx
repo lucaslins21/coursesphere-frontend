@@ -9,8 +9,15 @@ export const Dashboard: React.FC = () => {
   const { user } = useAuth()
   const [courses, setCourses] = useState<Course[]>([])
   const [q, setQ] = useState('')
+  const [invCount, setInvCount] = useState(0)
 
   useEffect(() => { (async () => { const { data } = await api.get<Course[]>('/courses'); setCourses(data) })() }, [])
+  useEffect(() => { (async () => {
+    try {
+      const { data } = await api.get('/invitations', { params: { email: user!.email, status: 'pending' } })
+      setInvCount(Array.isArray(data) ? data.length : 0)
+    } catch { setInvCount(0) }
+  })() }, [user])
 
   const mine = useMemo(() => courses.filter(c => c.creator_id === user!.id || c.instructors.includes(user!.id)), [courses, user])
   const filtered = useMemo(() => mine.filter(c => (c.name + ' ' + (c.description||'')).toLowerCase().includes(q.toLowerCase())), [mine, q])
@@ -24,7 +31,7 @@ export const Dashboard: React.FC = () => {
         <input value={q} onChange={(e)=>setQ(e.target.value)} placeholder="Buscar por nome ou descrição"/>
         <div className="row">
           <Link className="btn" to="/courses/new">Criar curso</Link>
-          <Link className="btn ghost" to="/invitations">Convites</Link>
+          <Link className="btn ghost" to="/invitations">Convites{invCount>0 && <span className="badge" style={{marginLeft:6}}>{invCount}</span>}</Link>
           <span className="muted">{filtered.length} curso(s)</span>
         </div>
       </div>

@@ -1,5 +1,5 @@
-import React from 'react'
-import { createBrowserRouter, Navigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { createBrowserRouter, Navigate, Link } from 'react-router-dom'
 import { Login } from '../pages/Login'
 import { Register } from '../pages/Register'
 import { Dashboard } from '../features/courses/pages/Dashboard'
@@ -9,6 +9,7 @@ import { CourseForm } from '../features/courses/pages/CourseForm'
 import { useAuth } from '../auth/AuthContext'
 import { NotAllowed } from '../pages/NotAllowed'
 import { Invitations } from '../pages/Invitations'
+import { api } from '../lib/axios'
 
 const Guard: React.FC<React.PropsWithChildren> = ({ children }) => {
   const { user } = useAuth()
