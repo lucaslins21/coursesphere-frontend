@@ -73,6 +73,21 @@ nav { display:flex; justify-content:space-between; padding: 12px 24px; backgroun
 /* Media */
 .video-thumb { border-radius: var(--radius-sm); overflow: hidden; }
 
+/* ===== Dashboard modern ===== */
+.dash-header { display:flex; align-items:flex-end; justify-content:space-between; gap: 16px; margin: 6px 0 12px; }
+.dash-actions { display:flex; align-items:center; gap: 12px; }
+.dash-actions .search { width: min(360px, 40vw); }
+.dash-actions .input-wrap input { height: 38px; }
+.dash-toolbar { display:flex; align-items:center; gap: 12px; margin-bottom: 16px; }
+.chip { display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; border:1px solid #3244a7; color:var(--text); text-decoration:none; background: rgba(255,255,255,.02); }
+.chip-badge { background: var(--primary); color:white; border-radius:999px; padding:0 6px; font-size:11px; line-height:18px; height:18px; display:inline-flex; align-items:center; }
+.course-grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
+.course-card { display:grid; grid-template-rows: 140px auto; background: var(--card); border:1px solid rgba(148,163,255,.12); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); }
+.course-card .thumb { position: relative; background: linear-gradient(135deg, #1f2b64 0%, #111936 100%); border-bottom:1px solid rgba(148,163,255,.12); display:grid; place-items:center; }
+.course-card .thumb span { font-family: var(--font-display); font-size: 42px; opacity:.9; color:#aab3ff; }
+.course-card .content { padding: 14px; display:flex; flex-direction:column; }
+.course-card .row { gap: 8px; }
+
 /* ===== Auth - Modern login ===== */
 .login-page { min-height: 100vh; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; background:
   radial-gradient(900px 600px at 10% 20%, rgba(99,102,241,.18), transparent 40%),
