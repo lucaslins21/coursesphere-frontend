@@ -40,9 +40,13 @@ export const Invitations: React.FC = () => {
 
   return (
     <div>
-      <div className="row" style={{alignItems:'center', justifyContent:'space-between'}}>
-        <h1 className="title" style={{margin:0}}>Convites</h1>
-        <Link to="/" className="btn ghost"><FontAwesomeIcon icon={faArrowLeft} /> Voltar ao dashboard</Link>
+      <div className="dash-header">
+        <div className="dash-title">
+          <h1 className="title">Convites</h1>
+        </div>
+        <div className="dash-actions">
+          <Link to="/" className="btn ghost sm"><FontAwesomeIcon icon={faArrowLeft} /> Voltar</Link>
+        </div>
       </div>
       {!items.length && <p className="muted">Nenhum convite pendente.</p>}
       <div className="grid">
