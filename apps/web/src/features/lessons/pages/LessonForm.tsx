@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+﻿import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { api } from '../../../lib/axios'
 import { useAuth } from '../../../auth/AuthContext'
@@ -6,6 +6,13 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '../../../components/feedback/Toast'
+import { TextInput } from '../../../components/form/TextInput'
+import { FormError } from '../../../components/form/FormError'
+import { Button } from '../../../components/ui/Button'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFloppyDisk, faRotateLeft, faCalendar, faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { FormShell } from '../../../components/layout/FormShell'
+
 type Course = { id:number; instructors:number[]; creator_id:number }
 type Lesson = { id:number; title:string; status:'draft'|'published'|'archived'; publish_date:string; video_url:string; course_id:number; creator_id:number }
 
@@ -24,7 +31,6 @@ export const LessonForm: React.FC<{ mode: 'create' | 'edit' }> = ({ mode }) => {
   const { push } = useToast()
   const [guarding, setGuarding] = useState(true)
 
-  // Inicializa o formulário ANTES de usar setValue no efeito
   const { register, handleSubmit, formState: { errors, isSubmitting }, setValue } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -51,7 +57,6 @@ export const LessonForm: React.FC<{ mode: 'create' | 'edit' }> = ({ mode }) => {
           if (!(user && (lesson.creator_id === user.id || course.creator_id === user.id))) {
             nav('/403', { replace: true }); return
           }
-          // Preencher formulário no modo edição
           setValue('title', lesson.title)
           setValue('status', lesson.status)
           setValue('publish_date', lesson.publish_date.slice(0,10))
@@ -69,7 +74,7 @@ export const LessonForm: React.FC<{ mode: 'create' | 'edit' }> = ({ mode }) => {
         await api.post('/lessons', { ...f, course_id: Number(courseId), creator_id: user!.id })
         push('success', 'Aula criada!')
       } else {
-        await api.patch(`/lessons/${lessonId}` , { ...f })
+        await api.patch(`/lessons/${lessonId}`, { ...f })
         push('success', 'Aula atualizada!')
       }
       nav(`/courses/${courseId}`)
@@ -81,24 +86,51 @@ export const LessonForm: React.FC<{ mode: 'create' | 'edit' }> = ({ mode }) => {
   if (guarding) return <p className="muted">Carregando...</p>
 
   return (
-    <div style={{maxWidth:640}}>
-      <h1 className="title">{mode === 'create' ? 'Criar aula' : 'Editar aula'}</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="card" style={{display:'grid', gap:10}}>
-        <div><label>Título</label><input {...register('title')} />{errors.title && <div className="badge" style={{borderColor:'#b5484a'}}>⚠️ {errors.title.message}</div>}</div>
-        <div><label>Status</label>
-          <select {...register('status')}>
-            <option value="draft">Rascunho</option>
-            <option value="published">Publicada</option>
-            <option value="archived">Arquivada</option>
-          </select>
+    <FormShell
+      title={mode === 'create' ? 'Criar aula' : 'Editar aula'}
+      subtitle={mode === 'create' ? 'Defina as informações da nova aula.' : 'Atualize os dados da aula.'}
+    >
+      <form onSubmit={handleSubmit(onSubmit)} className="form-grid">
+        <TextInput
+          label="Título"
+          placeholder="Título da aula"
+          {...register('title')}
+          error={errors.title?.message}
+        />
+        <div className="field">
+          <label>Status</label>
+          <div className="input-wrap">
+            <select {...register('status')}>
+              <option value="draft">Rascunho</option>
+              <option value="published">Publicada</option>
+              <option value="archived">Arquivada</option>
+            </select>
+            <span className="icon-right" aria-hidden="true"><FontAwesomeIcon icon={faChevronDown} /></span>
+          </div>
+          <FormError message={errors.status?.message} />
         </div>
-        <div><label>Data de publicação</label><input type="date" {...register('publish_date')} />{errors.publish_date && <div className="badge" style={{borderColor:'#b5484a'}}>⚠️ {errors.publish_date.message}</div>}</div>
-        <div><label>URL do vídeo</label><input {...register('video_url')} />{errors.video_url && <div className="badge" style={{borderColor:'#b5484a'}}>⚠️ {errors.video_url.message}</div>}</div>
-        <div className="row">
-          <button className="btn" disabled={isSubmitting}><i className="fa-solid fa-floppy-disk"></i> {isSubmitting? 'Salvando...' : 'Salvar'}</button>
-          <button type="button" className="btn ghost" onClick={()=>nav(-1)}><i className="fa-solid fa-rotate-left"></i> Cancelar</button>
+        <TextInput
+          label="Data de publicação"
+          type="date"
+          {...register('publish_date')}
+          error={errors.publish_date?.message}
+          right={<FontAwesomeIcon icon={faCalendar} />}
+        />
+        <TextInput
+          label="URL do vídeo"
+          placeholder="https://"
+          {...register('video_url')}
+          error={errors.video_url?.message}
+        />
+        <div className="form-actions">
+          <Button variant="gradient" disabled={isSubmitting}>
+            <FontAwesomeIcon icon={faFloppyDisk} /> {isSubmitting ? 'Salvando...' : 'Salvar'}
+          </Button>
+          <Button type="button" variant="ghost" onClick={() => nav(-1)}>
+            <FontAwesomeIcon icon={faRotateLeft} /> Cancelar
+          </Button>
         </div>
       </form>
-    </div>
+    </FormShell>
   )
 }

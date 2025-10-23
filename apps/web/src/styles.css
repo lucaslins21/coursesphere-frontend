@@ -92,8 +92,10 @@ nav { display:flex; justify-content:space-between; padding: 12px 24px; backgroun
 .field { display:grid; gap:8px; }
 .input-wrap { position: relative; }
 .input-wrap .icon-right { position:absolute; right:10px; top:50%; transform: translateY(-50%); color: var(--muted); cursor: pointer; opacity: .9; display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border:none; background:transparent; border-radius:6px; }
+.input-wrap .icon-right:not(button) { pointer-events: none; }
 .input-wrap .icon-right:hover { opacity: 1; background: rgba(255,255,255,.06); }
 .input-wrap input { padding-right: 42px; }
+.input-wrap select { padding-right: 42px; }
 .login-foot { margin-top: 12px; }
 
 /* logo in login */
@@ -105,3 +107,28 @@ nav { display:flex; justify-content:space-between; padding: 12px 24px; backgroun
 
 
 
+
+/* form error modern */
+.form-error { display:flex; align-items:center; gap:8px; color:#fecaca; background: rgba(244,63,94,.08); border:1px solid rgba(244,63,94,.25); padding:6px 10px; border-radius:10px; font-size:12px; margin-top:6px; }
+.form-error svg { color:#f87171; }
+
+
+/* general forms */
+.form-page { display:flex; justify-content:center; padding: 48px 16px 72px; }
+.form-card { position: relative; width: clamp(360px, 50vw, 720px); background: rgba(17,25,54,.65); border-radius: var(--radius-lg); padding: 28px; border: 1px solid rgba(148,163,255,.16); box-shadow: var(--shadow); backdrop-filter: blur(10px); transform-style: preserve-3d; transition: transform .2s ease, box-shadow .2s ease; }
+.form-card:hover { transform: translateY(-2px); box-shadow: 0 22px 70px rgba(0,0,0,.48), inset 0 1px 0 rgba(255,255,255,.04); }
+.form-card::before { content:''; position:absolute; inset:0; border-radius: inherit; padding: 1px; background: linear-gradient(135deg, rgba(99,102,241,.55), rgba(236,72,153,.45)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events:none; }
+.form-heading { margin-bottom: 24px; }
+.form-heading .title { margin:0; }
+.form-heading .muted { margin:6px 0 0; }
+.form-grid { display:grid; gap: 16px; }
+.form-row { display:flex; gap: 16px; flex-wrap: wrap; }
+.form-row .field { flex:1; min-width: 220px; }
+.form-actions { display:flex; gap:12px; justify-content:flex-end; }
+.field select { height: 42px; background: var(--surface); border:1px solid var(--border); border-radius:10px; color:var(--text); padding:0 12px; appearance: none; -webkit-appearance: none; -moz-appearance: none; background-image: none; }
+.field select:focus { outline:2px solid rgba(99,102,241,.4); border-color: var(--primary); }
+/* hide native date icon so FA calendar is visible */
+input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0; }
+/* form sizing to match login */
+.form-card input { height: 42px; font-size: 14px; }
+.form-card .btn { height: 42px; }

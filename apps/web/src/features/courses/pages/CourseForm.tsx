@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+﻿import React, { useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { api } from '../../../lib/axios'
 import { useAuth } from '../../../auth/AuthContext'
@@ -6,6 +6,11 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useToast } from '../../../components/feedback/Toast'
+import { TextInput } from '../../../components/form/TextInput'
+import { Button } from '../../../components/ui/Button'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFloppyDisk, faRotateLeft, faCalendar } from '@fortawesome/free-solid-svg-icons'
+import { FormShell } from '../../../components/layout/FormShell'
 
 type Mode = 'create' | 'edit'
 type Course = { id:number; name:string; description?:string; start_date:string; end_date:string; creator_id:number; instructors:number[] }
@@ -42,7 +47,6 @@ export const CourseForm: React.FC<{ mode: Mode }> = ({ mode }) => {
     if (mode === 'edit' && id) {
       (async () => {
         const { data } = await api.get<Course>(`/courses/${id}`)
-        // Permissão: somente o criador do curso pode editar
         if (data.creator_id !== user!.id) {
           nav('/403', { replace: true })
           return
@@ -59,8 +63,12 @@ export const CourseForm: React.FC<{ mode: Mode }> = ({ mode }) => {
     try {
       if (mode === 'create') {
         const { data } = await api.post('/courses', {
-          name: f.name, description: f.description, start_date: f.start_date, end_date: f.end_date,
-          creator_id: user!.id, instructors: [user!.id]
+          name: f.name,
+          description: f.description,
+          start_date: f.start_date,
+          end_date: f.end_date,
+          creator_id: user!.id,
+          instructors: [user!.id]
         })
         push('success', 'Curso criado!')
         nav(`/courses/${data.id}`)
@@ -75,36 +83,48 @@ export const CourseForm: React.FC<{ mode: Mode }> = ({ mode }) => {
   }
 
   return (
-    <div style={{maxWidth:640}}>
-      <h1 className="title">{mode === 'create' ? 'Criar curso' : 'Editar curso'}</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="card" style={{display:'grid', gap:10}}>
-        <div>
-          <label>Nome</label>
-          <input {...register('name')} />
-          {errors.name && <div className="badge" style={{borderColor:'#b5484a'}}>⚠️ {errors.name.message}</div>}
+    <FormShell
+      title={mode === 'create' ? 'Criar curso' : 'Editar curso'}
+      subtitle={mode === 'create' ? 'Preencha as informações do novo curso.' : 'Atualize os dados do curso.'}
+    >
+      <form onSubmit={handleSubmit(onSubmit)} className="form-grid">
+        <TextInput
+          label="Nome"
+          placeholder="Nome do curso"
+          {...register('name')}
+          error={errors.name?.message}
+        />
+        <TextInput
+          label="Descrição"
+          placeholder="Descrição (opcional)"
+          {...register('description')}
+          error={errors.description?.message}
+        />
+        <div className="form-row">
+          <TextInput
+            label="Data inicial"
+            type="date"
+            {...register('start_date')}
+            error={errors.start_date?.message}
+            right={<FontAwesomeIcon icon={faCalendar} />}
+          />
+          <TextInput
+            label="Data final"
+            type="date"
+            {...register('end_date')}
+            error={errors.end_date?.message}
+            right={<FontAwesomeIcon icon={faCalendar} />}
+          />
         </div>
-        <div>
-          <label>Descrição</label>
-          <input {...register('description')} />
-          {errors.description && <div className="badge" style={{borderColor:'#b5484a'}}>⚠️ {errors.description.message}</div>}
-        </div>
-        <div className="row">
-          <div style={{flex:1}}>
-            <label>Data inicial</label>
-            <input type="date" {...register('start_date')} />
-            {errors.start_date && <div className="badge" style={{borderColor:'#b5484a'}}>⚠️ {errors.start_date.message}</div>}
-          </div>
-          <div style={{flex:1}}>
-            <label>Data final</label>
-            <input type="date" {...register('end_date')} />
-            {errors.end_date && <div className="badge" style={{borderColor:'#b5484a'}}>⚠️ {errors.end_date.message}</div>}
-          </div>
-        </div>
-        <div className="row">
-          <button className="btn" disabled={isSubmitting}><i className="fa-solid fa-floppy-disk"></i> {isSubmitting? 'Salvando...' : 'Salvar'}</button>
-          <button type="button" className="btn ghost" onClick={()=>nav(-1)}><i className="fa-solid fa-rotate-left"></i> Cancelar</button>
+        <div className="form-actions">
+          <Button variant="gradient" disabled={isSubmitting}>
+            <FontAwesomeIcon icon={faFloppyDisk} /> {isSubmitting ? 'Salvando...' : 'Salvar'}
+          </Button>
+          <Button type="button" variant="ghost" onClick={() => nav(-1)}>
+            <FontAwesomeIcon icon={faRotateLeft} /> Cancelar
+          </Button>
         </div>
       </form>
-    </div>
+    </FormShell>
   )
 }
