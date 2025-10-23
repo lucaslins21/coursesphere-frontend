@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCircleCheck, faTriangleExclamation, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 
 type Toast = { id: number; kind: 'success'|'error'|'info'; msg: string }
 type Ctx = { push: (kind: Toast['kind'], msg: string) => void }
@@ -11,22 +13,25 @@ export const ToastProvider: React.FC<React.PropsWithChildren> = ({ children }) =
   const push = (kind: Toast['kind'], msg: string) => {
     const id = Date.now() + Math.random()
     setItems(curr => [...curr, { id, kind, msg }])
-    setTimeout(() => setItems(curr => curr.filter(t => t.id !== id)), 3000)
+    const DURATION = 3500
+    setTimeout(() => setItems(curr => curr.filter(t => t.id !== id)), DURATION)
   }
   const value = useMemo(() => ({ push }), [])
   return (
     <ToastCtx.Provider value={value}>
       {children}
       {createPortal(
-        <div style={{position:'fixed', right:16, bottom:16, display:'grid', gap:8, zIndex:50}}>
+        <div className="toast-stack">
           {items.map(t => (
-            <div key={t.id} className="card" style={{
-              borderLeft:'4px solid',
-              borderLeftColor: t.kind==='success' ? '#28a745' : t.kind==='error' ? '#dc3545' : '#5e74ff',
-              minWidth:260
-            }}>
-              <strong style={{textTransform:'capitalize'}}>{t.kind}</strong>
-              <div className="muted">{t.msg}</div>
+            <div key={t.id} className={`toast ${t.kind}`}>
+              <div className="icon">
+                <FontAwesomeIcon icon={t.kind==='success' ? faCircleCheck : t.kind==='error' ? faTriangleExclamation : faCircleInfo} />
+              </div>
+              <div className="content">
+                <div className="title">{t.kind === 'success' ? 'Sucesso' : t.kind === 'error' ? 'Erro' : 'Info'}</div>
+                <div className="msg">{t.msg}</div>
+              </div>
+              <div className="toast-progress" style={{ ['--dur' as any]: '3500ms' }} />
             </div>
           ))}
         </div>,
