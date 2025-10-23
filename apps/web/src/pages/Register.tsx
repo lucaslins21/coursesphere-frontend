@@ -11,6 +11,7 @@ import logoUrl from '../components/media/logo.png?url'
 import { TextInput } from '../components/form/TextInput'
 import { PasswordInput } from '../components/form/PasswordInput'
 import { Button } from '../components/ui/Button'
+import { FormError } from '../components/form/FormError'
 import { AuthCard } from '../components/auth/AuthCard'
 import { AuthForm } from '../components/auth/AuthForm'
 
@@ -24,7 +25,7 @@ type FormData = z.infer<typeof schema>
 export const Register: React.FC = () => {
   const nav = useNavigate()
   const { login } = useAuth()
-  const { register, handleSubmit, control, formState: { errors, isSubmitting } } = useForm<FormData>({
+  const { register, handleSubmit, control, setError, formState: { errors, isSubmitting } } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       name: '',
@@ -39,7 +40,17 @@ export const Register: React.FC = () => {
       await login(f.email, f.password)
       nav('/', { replace: true })
     } catch (e:any) {
-      alert(e?.response?.data?.message || 'Falha no cadastro')
+      const msg = e?.response?.data?.message || 'Falha no cadastro'
+      const low = String(msg).toLowerCase()
+      if (low.includes('e-mail') || low.includes('email')) {
+        setError('email', { type: 'server', message: msg })
+      } else if (low.includes('nome')) {
+        setError('name', { type: 'server', message: msg })
+      } else if (low.includes('senha')) {
+        setError('password', { type: 'server', message: msg })
+      } else {
+        setError('root', { type: 'server', message: msg })
+      }
     }
   }
 
@@ -73,6 +84,7 @@ export const Register: React.FC = () => {
               />
             )}
           />
+          <FormError message={errors.root?.message as any} />
           <div className="login-cta">
             <Button variant="gradient" disabled={isSubmitting} full>
               <FontAwesomeIcon icon={faUserPlus} /> {isSubmitting ? 'Criando...' : 'Criar conta'}
