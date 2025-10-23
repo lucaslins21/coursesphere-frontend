@@ -12,7 +12,7 @@ Aplicação web para gestão colaborativa de cursos e aulas. Feita em React (Vit
 - Variáveis de ambiente e build
 - Fluxos adicionais implementados (convites etc.)
 - Design System (toasts, popups, navbar, formulários)
-- Dicas de deploy (Vercel) e problemas comuns
+- Dicas de deploy (Vercel)
 
 ## Visão geral e funcionalidades
 Atende às regras e telas descritas no desafio, com alguns aprimoramentos.
@@ -73,7 +73,7 @@ Credenciais de exemplo (api/db.json)
 
 ## Variáveis de ambiente e build
 
-- `VITE_API_URL`: URL da API (ex.: http://localhost:3333). Em produção, use a URL pública da sua API.
+- `VITE_API_URL`: URL da API (ex.: http://localhost:3333). Em produção, usei https://coursesphere-api-ao7j.onrender.com
 
 Build local (gera `dist/`):
 ```
@@ -102,28 +102,6 @@ npm run build
 - Toasts modernos (ícone, barra de progresso) e modal de confirmação com overlay.
 - Campos de data com ícone de calendário clicável (abre o picker nativo).
 
-## Deploy (Vercel)
-
-Projeto já inclui `apps/web/vercel.json` para funcionar como SPA:
-
-```
-{
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
-  ]
-}
-```
-
-Passos de configuração recomendados:
-- Root Directory: `apps/web`
-- Build Command: `npm run build`
-- Output Directory: `dist`
-- Environment Variables: `VITE_API_URL=https://SUA-API-PUBLICA`
-
-Problemas comuns
-- 404 ao dar F5 em rotas → faltava rewrite de SPA (resolvido pelo vercel.json).
-- Login não funciona no deploy → `VITE_API_URL` apontando para `localhost`. Defina a URL pública da API.
-
 ## Endpoints relevantes (mock)
 - `POST /login` → retorna `{ token, user }`
 - `POST /register` → valida e cria novo usuário
@@ -131,11 +109,3 @@ Problemas comuns
 - `GET/POST/PATCH/DELETE /lessons`
 - `POST /invitations` (criar), `POST /invitations/:id/accept`, `POST /invitations/:id/decline`
 
-## Notas Windows (acentuação)
-Se caracteres aparecerem “estranhos” no terminal (apenas console):
-- PowerShell: `chcp 65001` e opcional `$OutputEncoding = [Console]::OutputEncoding = [System.Text.Encoding]::UTF8`.
-- O projeto está salvo em UTF‑8; editores como VS Code já exibem corretamente.
-
----
-
-Qualquer dúvida, abra uma issue. Boa avaliação e bom proveito! 🎓
