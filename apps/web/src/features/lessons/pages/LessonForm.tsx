@@ -34,10 +34,10 @@ export const LessonForm: React.FC<{ mode: 'create' | 'edit' }> = ({ mode }) => {
   const { register, handleSubmit, formState: { errors, isSubmitting }, setValue } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      title: 'Nova aula',
+      title: '',
       status: 'draft',
       publish_date: new Date(Date.now()+86400000).toISOString().slice(0,10),
-      video_url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+      video_url: ''
     }
   })
 

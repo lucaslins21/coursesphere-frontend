@@ -14,8 +14,8 @@ import { useAuth } from '../auth/AuthContext'
 export const Login: React.FC = () => {
   const { login } = useAuth()
   const nav = useNavigate()
-  const [email, setEmail] = useState('ana@curso.com')
-  const [password, setPassword] = useState('123456')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
@@ -41,14 +41,12 @@ export const Login: React.FC = () => {
             label="Email"
             value={email}
             onChange={e => setEmail(e.target.value)}
-            placeholder="email"
             right={<FontAwesomeIcon icon={faEnvelope} />}
           />
           <PasswordInput
             label="Senha"
             value={password}
             onChange={e => setPassword(e.target.value)}
-            placeholder="senha"
           />
           <FormError message={error} />
           <div className="login-cta">
