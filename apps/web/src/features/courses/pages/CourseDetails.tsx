@@ -172,41 +172,42 @@ export const CourseDetails: React.FC = () => {
         <div className="dash-title">
           <div className="row" style={{alignItems:'center', gap:8}}>
             <h1 className="title" style={{margin:0}}>{course.name}</h1>
-            {canManage && <Link className="btn ghost" to={`/courses/${course.id}/edit`}><FontAwesomeIcon icon={faPenToSquare} /> Editar curso</Link>}
           </div>
-          <p className="subtitle">Criador: <strong>{nameOf(course.creator_id)}</strong></p>
         </div>
         <div className="dash-actions">
-          {isInstructor && <Link className="btn gradient" to={`/courses/${course.id}/lessons/new`}><FontAwesomeIcon icon={faPlus} /> Nova aula</Link>}
+          {canManage && <Link className="btn ghost" to={`/courses/${course.id}/edit`}><FontAwesomeIcon icon={faPenToSquare} /> Editar curso</Link>}
           <Link className="btn ghost" to="/"><FontAwesomeIcon icon={faArrowLeft} /> Voltar</Link>
         </div>
       </div>
 
+      <p className="subtitle">Criador: <strong>{nameOf(course.creator_id)}</strong></p>
       {course.description && <p className="muted" style={{marginTop: 0}}>{course.description}</p>}
       <div className="row" style={{marginTop:8}}>
         <span className="badge">Início: {new Date(course.start_date).toLocaleDateString()}</span>
         <span className="badge">Fim: {new Date(course.end_date).toLocaleDateString()}</span>
       </div>
 
-      <div className="dash-toolbar">
-        <div style={{display:'flex', alignItems:'center', gap:12}}>
-          <select value={status} onChange={e=>{ setPage(1); setStatus(e.target.value) }}>
-            <option value="">Todas</option>
-            <option value="draft">Rascunho</option>
-            <option value="published">Publicada</option>
-            <option value="archived">Arquivada</option>
-          </select>
-        </div>
-        <div style={{display:'flex', alignItems:'center', gap:12}}>
-          <span className="muted">{total} aula(s)</span>
-          <div className="search" style={{width:320}}>
-            <div className="input-wrap">
-              <input placeholder="Buscar aulas" value={q} onChange={e=>{ setPage(1); setQ(e.target.value) }} />
-              <span className="icon-right"><FontAwesomeIcon icon={faMagnifyingGlass} /></span>
-            </div>
+      {/* busca + nova aula lado a lado */}
+      <div className="dash-actions" style={{marginTop:12}}>
+        <div className="search">
+          <div className="input-wrap">
+            <input placeholder="Buscar aulas" value={q} onChange={e=>{ setPage(1); setQ(e.target.value) }} />
+            <span className="icon-right"><FontAwesomeIcon icon={faMagnifyingGlass} /></span>
           </div>
         </div>
+        {isInstructor && <Link className="btn gradient" to={`/courses/${course.id}/lessons/new`}><FontAwesomeIcon icon={faPlus} /> Nova aula</Link>}
       </div>
+
+      <div className="dash-toolbar">
+        <select value={status} onChange={e=>{ setPage(1); setStatus(e.target.value) }}>
+          <option value="">Todas</option>
+          <option value="draft">Rascunho</option>
+          <option value="published">Publicada</option>
+          <option value="archived">Arquivada</option>
+        </select>
+      </div>
+
+      <div className="dash-counter"><span className="muted">{total} aula(s)</span></div>
 
       {loading && <p className="muted">Carregando aulas...</p>}
 
@@ -277,11 +278,11 @@ export const CourseDetails: React.FC = () => {
           </div>
           <div className="space" />
           <div className="dash-actions" style={{justifyContent:'flex-start'}}>
-            <div className="search" style={{width:320}}>
+            <div className="search">
               <input placeholder="Convidar por e-mail" value={inviteEmail} onChange={e=>setInviteEmail(e.target.value)} />
             </div>
             <button className="btn gradient sm" onClick={sendInvite} disabled={sendingInvite}><FontAwesomeIcon icon={faPaperPlane} /> {sendingInvite? 'Enviando...' : 'Convidar'}</button>
-            <button className="btn ghost sm" onClick={addSuggestedInstructor}><FontAwesomeIcon icon={faWandMagicSparkles} /> Sugerir instrutor</button>
+            <button className="btn ghost sm wide" onClick={addSuggestedInstructor}><FontAwesomeIcon icon={faWandMagicSparkles} /> Sugerir instrutor</button>
           </div>
         </div>
       )}

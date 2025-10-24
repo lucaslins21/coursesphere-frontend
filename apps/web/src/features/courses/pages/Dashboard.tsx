@@ -42,14 +42,7 @@ export const Dashboard: React.FC = () => {
         </div>
       </div>
 
-      <div className="dash-toolbar">
-        <Link className="chip" to="/invitations">
-          <FontAwesomeIcon icon={faEnvelope} />
-          <span>Convites</span>
-          {invCount>0 && <span className="chip-badge">{invCount}</span>}
-        </Link>
-        <span className="muted">{filtered.length} curso(s)</span>
-      </div>
+      <div className="dash-counter"><span className="muted">{filtered.length} curso(s)</span></div>
 
       <div className="course-grid">
         {filtered.map(c => (

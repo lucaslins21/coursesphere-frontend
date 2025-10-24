@@ -100,8 +100,17 @@ nav { display:flex; justify-content:space-between; padding: 12px 24px; backgroun
   .dash-header { flex-direction: column; align-items: stretch; gap: 10px; }
   .dash-actions { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .dash-actions .search { width: 100%; }
-  .dash-actions .btn { width: 100%; justify-content: center; }
+  .dash-actions .btn { width: 100%; justify-content: center; height: 42px; }
+  .dash-actions .wide { grid-column: 1 / -1; }
+  /* toolbar (filtros) fica alinhado e sem quebra estranha */
+  .dash-toolbar { display: grid; grid-template-columns: 1fr; gap: 8px; align-items: stretch; }
+  .dash-toolbar .search { width: 100%; }
+  .dash-toolbar select, .dash-toolbar input { height: 42px; }
+  .dash-toolbar .btn { height: 42px; }
 }
+
+/* counter line */
+.dash-counter { margin: 8px 0 12px; }
 
 /* ===== Toast (modern) ===== */
 .toast-stack { position: fixed; right: 16px; bottom: 16px; display:grid; gap: 10px; z-index: 60; }
