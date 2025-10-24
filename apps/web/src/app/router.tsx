@@ -64,7 +64,7 @@ const AppLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
                 type="button"
                 className="icon-btn"
                 onClick={async () => {
-                  const ok = await confirm({ title: 'Sair da conta?', message: 'Você deseja encerrar a sessão agora?', confirmText: 'Sair', cancelText:'Cancelar', tone: 'danger' })
+                  const ok = await confirm({ title: 'Sair da conta?', message: 'Você deseja encerrar a sessão agora?', confirmText: 'Sair', cancelText:'Cancelar', tone: 'danger', confirmIcon: 'sign-out' })
                   if (!ok) return
                   auth.logout(); nav('/login', { replace:true })
                 }}

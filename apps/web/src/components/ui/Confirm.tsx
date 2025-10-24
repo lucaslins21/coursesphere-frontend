@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useMemo, useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTriangleExclamation, faCircleQuestion, faXmark, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faTriangleExclamation, faCircleQuestion, faXmark, faTrash, faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
 type Options = {
   title?: string
@@ -9,6 +9,7 @@ type Options = {
   confirmText?: string
   cancelText?: string
   tone?: 'danger' | 'default'
+  confirmIcon?: 'trash' | 'sign-out' | 'none'
 }
 
 type Ctx = { confirm: (opts: Options) => Promise<boolean> }
@@ -53,9 +54,22 @@ export const ConfirmProvider: React.FC<React.PropsWithChildren> = ({ children })
               <button className="btn ghost sm equal" onClick={() => close(false)}>
                 <FontAwesomeIcon icon={faXmark} /> {opts.cancelText || 'Cancelar'}
               </button>
-              <button className={`btn sm equal ${opts.tone==='danger' ? '' : 'gradient'}`} onClick={() => close(true)}>
-                {opts.tone==='danger' ? <FontAwesomeIcon icon={faTrash} /> : null} {opts.confirmText || 'Confirmar'}
-              </button>
+              {(() => {
+                const label = opts.confirmText || 'Confirmar'
+                // Decide ícone
+                let icon: any = null
+                if (opts.confirmIcon === 'trash') icon = faTrash
+                else if (opts.confirmIcon === 'sign-out') icon = faRightFromBracket
+                else if (opts.confirmIcon !== 'none') {
+                  const showTrash = opts.tone === 'danger' && /exclu|remov|apag|delet/i.test(label)
+                  icon = showTrash ? faTrash : null
+                }
+                return (
+                  <button className={`btn sm equal ${opts.tone==='danger' ? '' : 'gradient'}`} onClick={() => close(true)}>
+                    {icon ? <FontAwesomeIcon icon={icon} /> : null} {label}
+                  </button>
+                )
+              })()}
             </div>
           </div>
         </div>,
