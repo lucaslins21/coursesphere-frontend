@@ -9,7 +9,7 @@ import { useToast } from '../../../components/feedback/Toast'
 import { TextInput } from '../../../components/form/TextInput'
 import { Button } from '../../../components/ui/Button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFloppyDisk, faRotateLeft, faCalendar } from '@fortawesome/free-solid-svg-icons'
+import { faFloppyDisk, faXmark, faCalendar } from '@fortawesome/free-solid-svg-icons'
 import { FormShell } from '../../../components/layout/FormShell'
 
 type Mode = 'create' | 'edit'
@@ -121,7 +121,7 @@ export const CourseForm: React.FC<{ mode: Mode }> = ({ mode }) => {
             <FontAwesomeIcon icon={faFloppyDisk} /> {isSubmitting ? 'Salvando...' : 'Salvar'}
           </Button>
           <Button type="button" variant="ghost" onClick={() => nav(-1)}>
-            <FontAwesomeIcon icon={faRotateLeft} /> Cancelar
+            <FontAwesomeIcon icon={faXmark} /> Cancelar
           </Button>
         </div>
       </form>

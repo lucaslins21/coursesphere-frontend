@@ -225,3 +225,4 @@ input[type="date"]::-webkit-calendar-picker-indicator { opacity: 0; }
 .modal.danger .modal-icon { color: var(--danger); }
 .modal-body { grid-area: body; }
 .modal-actions { grid-area: actions; display:flex; justify-content:flex-end; gap: 8px; }
+.modal-actions .equal { min-width: 120px; justify-content: center; }

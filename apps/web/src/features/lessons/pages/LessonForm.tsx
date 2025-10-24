@@ -10,7 +10,7 @@ import { TextInput } from '../../../components/form/TextInput'
 import { FormError } from '../../../components/form/FormError'
 import { Button } from '../../../components/ui/Button'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFloppyDisk, faRotateLeft, faCalendar, faChevronDown } from '@fortawesome/free-solid-svg-icons'
+import { faFloppyDisk, faXmark, faCalendar, faChevronDown } from '@fortawesome/free-solid-svg-icons'
 import { FormShell } from '../../../components/layout/FormShell'
 
 type Course = { id:number; instructors:number[]; creator_id:number }
@@ -127,7 +127,7 @@ export const LessonForm: React.FC<{ mode: 'create' | 'edit' }> = ({ mode }) => {
             <FontAwesomeIcon icon={faFloppyDisk} /> {isSubmitting ? 'Salvando...' : 'Salvar'}
           </Button>
           <Button type="button" variant="ghost" onClick={() => nav(-1)}>
-            <FontAwesomeIcon icon={faRotateLeft} /> Cancelar
+            <FontAwesomeIcon icon={faXmark} /> Cancelar
           </Button>
         </div>
       </form>

@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useContext, useMemo, useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTriangleExclamation, faCircleQuestion } from '@fortawesome/free-solid-svg-icons'
+import { faTriangleExclamation, faCircleQuestion, faXmark, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 type Options = {
   title?: string
@@ -50,8 +50,12 @@ export const ConfirmProvider: React.FC<React.PropsWithChildren> = ({ children })
               {opts.message && <p className="muted" style={{margin:0}}>{opts.message}</p>}
             </div>
             <div className="modal-actions">
-              <button className="btn ghost sm" onClick={() => close(false)}>{opts.cancelText || 'Cancelar'}</button>
-              <button className={`btn sm ${opts.tone==='danger' ? '' : 'gradient'}`} onClick={() => close(true)}>{opts.confirmText || 'Confirmar'}</button>
+              <button className="btn ghost sm equal" onClick={() => close(false)}>
+                <FontAwesomeIcon icon={faXmark} /> {opts.cancelText || 'Cancelar'}
+              </button>
+              <button className={`btn sm equal ${opts.tone==='danger' ? '' : 'gradient'}`} onClick={() => close(true)}>
+                {opts.tone==='danger' ? <FontAwesomeIcon icon={faTrash} /> : null} {opts.confirmText || 'Confirmar'}
+              </button>
             </div>
           </div>
         </div>,
@@ -66,4 +70,3 @@ export const useConfirm = () => {
   if (!ctx) throw new Error('useConfirm must be used within ConfirmProvider')
   return ctx
 }
-
