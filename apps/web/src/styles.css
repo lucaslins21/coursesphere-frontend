@@ -95,6 +95,14 @@ nav { display:flex; justify-content:space-between; padding: 12px 24px; backgroun
 .chip-remove { border:none; background:transparent; color: var(--muted); cursor:pointer; border-radius:6px; width:22px; height:22px; display:inline-flex; align-items:center; justify-content:center; }
 .chip-remove:hover { color: #fff; background: rgba(255,255,255,.06); }
 
+/* ===== Mobile tweaks ===== */
+@media (max-width: 640px) {
+  .dash-header { flex-direction: column; align-items: stretch; gap: 10px; }
+  .dash-actions { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .dash-actions .search { width: 100%; }
+  .dash-actions .btn { width: 100%; justify-content: center; }
+}
+
 /* ===== Toast (modern) ===== */
 .toast-stack { position: fixed; right: 16px; bottom: 16px; display:grid; gap: 10px; z-index: 60; }
 .toast { position: relative; min-width: 280px; max-width: 360px; padding: 12px 14px 18px; border-radius: 14px; background: rgba(17,25,54,.85); border: 1px solid rgba(148,163,255,.16); box-shadow: var(--shadow); display:flex; gap: 10px; animation: toast-in .2s ease; overflow: hidden; }
